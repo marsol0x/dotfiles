@@ -33,6 +33,7 @@ set laststatus=2
 
 let mapleader=","
 map <F2> :NERDTreeToggle<CR>
+map <F3> :TlistToggle<CR>
 
 noremap j gj
 noremap k gk
@@ -55,6 +56,7 @@ Bundle 'gmarik/vundle'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'davidhalter/jedi-vim' "This will need Jedi installed: sudo pip install jedi
+Bundle 'davidhalter/jedi-vim'
+Bundle 'vim-scripts/taglist.vim'
 
 filetype plugin indent on
