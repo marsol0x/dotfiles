@@ -1,8 +1,16 @@
+set nocompatible
+
 set nu
-colors desert
+colors molokai
 syntax on
 set encoding=utf-8
+set title
 set hlsearch
+set incsearch
+set showcmd
+set history=1000
+set wildmode=list:longest
+set visualbell
 
 set backspace=indent,eol,start
 set noswapfile
@@ -33,7 +41,7 @@ set laststatus=2
 
 let mapleader=","
 map <F2> :NERDTreeToggle<CR>
-map <F3> :TlistToggle<CR>
+map <F3> :TlistToggle<CR>:wincmd h<CR>
 
 noremap j gj
 noremap k gk
@@ -58,5 +66,8 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'vim-scripts/taglist.vim'
+Bundle 'voithos/vim-python-matchit'
 
 filetype plugin indent on
+
+runtime macros/matchit.vim
