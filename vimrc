@@ -11,6 +11,7 @@ set showcmd
 set history=1000
 set wildmode=list:longest
 set visualbell
+set linebreak
 
 set backspace=indent,eol,start
 set noswapfile
@@ -36,12 +37,13 @@ if has("gui_running")
 endif
 
 
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 set laststatus=2
 
 let mapleader=","
 map <F2> :NERDTreeToggle<CR>
-map <F3> :TlistToggle<CR>:wincmd h<CR>
+map <F3> :TlistToggle<CR>:10wincmd h<CR>
 
 noremap j gj
 noremap k gk
@@ -61,13 +63,21 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " My bundles go here
-Bundle 'scrooloose/nerdtree'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'Lokaltog/powerline'
 Bundle 'davidhalter/jedi-vim'
+Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'godlygeek/tabular'
+Bundle 'rodjek/vim-puppet'
+Bundle 'scrooloose/nerdtree'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'voithos/vim-python-matchit'
 
 filetype plugin indent on
 
 runtime macros/matchit.vim
+
+" NERDTree Ignores
+let NERDTreeIgnore = ['\.pyc$']
+
+" Jedi
+let g:jedi#popup_on_dot=0
