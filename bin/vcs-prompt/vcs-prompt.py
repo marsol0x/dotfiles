@@ -65,7 +65,7 @@ def vcs_prompt(path):
     output += " " + colors['YELLOW'] + changeset + colors['NORMAL']
     change_string = unicode(errors="replace")
 
-    if clean:
+    if clean and not update:
         change_string += colors['GREEN'] + glyphs['clean'] + colors['NORMAL']
     else:
         if staged:
@@ -84,7 +84,7 @@ def vcs_prompt(path):
         output += u" " + change_string
 
     if update:
-        output += colors['RED'] + u"!" + colors['NORMAL']
+        output += colors['RED'] + u" !" + colors['NORMAL']
 
     print output.encode("UTF-8")
         
