@@ -1,7 +1,7 @@
 autoload -U colors && colors
 
 # PATH
-PATH=/usr/local/bin/:/usr/local/share/python:$PATH
+PATH=$HOME/.bin:/usr/local/bin/:/usr/local/share/python:$PATH
 export PATH
 
 # Prompt
@@ -37,5 +37,12 @@ export CLICOLOR="YES" # all CLI colors on
 # keybindings
 bindkey "^P" history-search-backward
 bindkey "^N" history-search-forward
+
+# set tab title to cwd
+precmd () {
+    tab_label=${PWD/${HOME}/\~} # use 'relative' path
+    echo -ne "\e]2;${tab_label}\a" # set window title to full string
+    echo -ne "\e]1;${tab_label: -24}\a" # set tab title to rightmost 24 characters
+}
 
 /Users/mhelsper/Documents/Code/archey-osx/archey
