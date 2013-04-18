@@ -7,6 +7,7 @@ set encoding=utf-8
 set title
 set hlsearch
 set incsearch
+set ignorecase
 set showcmd
 set history=1000
 set wildmode=list:longest
