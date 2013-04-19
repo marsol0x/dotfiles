@@ -1,7 +1,7 @@
 autoload -U colors && colors
 
 # PATH
-PATH=$HOME/.bin:/usr/local/bin/:/usr/local/share/python:$PATH
+PATH=$HOME/.bin:/usr/local/bin:/usr/local/share/python:$PATH
 export PATH
 
 # Prompt
@@ -45,4 +45,4 @@ precmd () {
     echo -ne "\e]1;${tab_label: -24}\a" # set tab title to rightmost 24 characters
 }
 
-/Users/mhelsper/Documents/Code/archey-osx/archey
+~/.bin/archey
