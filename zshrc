@@ -10,12 +10,13 @@ export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)[%n@%m %F{green}%.%F{reset}]\$ '
 export RPROMPT='$(~/.bin/vcs-prompt/vcs-prompt.py)'
 
 # Aliases
-if [[ `uname` == "Darwin" ]]
+if [[ `uname` != "Darwin" ]]
 then
     alias ls="ls -F --group-directories-first --color=auto"
 else
-    alias ll="ls -l"
+    alias ls="ls -FG"
 fi
+alias ll="ls -l"
 alias grep="grep --color=auto"
 alias sed="gsed"
 alias emacs="emacs -nw"
