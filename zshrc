@@ -10,7 +10,8 @@ export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)[%n@%m %F{green}%.%F{reset}]\$ '
 export RPROMPT='$(~/.bin/vcs-prompt/vcs-prompt.py)'
 
 # Aliases
-if [[ `uname` -eq "Darwin" ]] then
+if [[ `uname` == "Darwin" ]]
+then
     alias ls="ls -F --group-directories-first --color=auto"
 else
     alias ll="ls -l"
@@ -49,9 +50,9 @@ precmd () {
     echo -ne "\e]1;${tab_label: -24}\a" # set tab title to rightmost 24 characters
 }
 
-if [[ `uname` -eq "Darwin" ]]
+if [[ `uname` == "Darwin" ]]
 then
-    ~/.bin/archey
+    ~/.bin/archey-osx
 else
     archey
 fi
