@@ -1,8 +1,8 @@
 set nocompatible
 
 set nu
-colors molokai
 syntax on
+colors molokai
 set encoding=utf-8
 set title
 set hlsearch
@@ -25,18 +25,6 @@ set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 "set textwidth=79
 set listchars=tab:▸\ ,eol:¬
 "set list
-
-set guioptions-=T
-set guioptions-=m
-set guioptions+=LlRrb
-set guioptions-=LlRrb
-
-if has("gui_running")
-    colors molokai
-    set columns=140
-    set lines=55
-endif
-
 
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
