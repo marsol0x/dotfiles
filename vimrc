@@ -70,3 +70,6 @@ let NERDTreeIgnore = ['\.pyc$']
 
 " Jedi
 let g:jedi#popup_on_dot=0
+
+" Filetype configurations
+autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
