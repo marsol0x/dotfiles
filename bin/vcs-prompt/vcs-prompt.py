@@ -4,7 +4,7 @@
 import os
 from git import Git
 from hg import HG
-import sh
+from subprocess import Popen, PIPE
 
 glyphs = {
         "repo"      : u'',
@@ -27,17 +27,15 @@ colors = {
     }
 
 def is_cwd_repo():
-    try:
-        return os.path.join(os.getcwd(), sh.git("rev-parse", "--git-dir").strip())
-    except:
-        pass
+    out, err = Popen(["git", "rev-parse", "--git-dir"], stdout=PIPE, stderr=PIPE).communicate()
+    if not err:
+        return out.splitlines()[0]
 
-    try:
-        return os.path.join(sh.hg("root").strip(), ".hg")
-    except:
-        pass
+    out, err = Popen(["hg", "root"], stdout=PIPE, stderr=PIPE).communicate()
+    if not err:
+        return out.splitlines()[0]
 
-    return None
+    return False
 
 def vcs_prompt(path):
     repo = None

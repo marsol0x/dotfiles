@@ -1,15 +1,17 @@
-import sh
+from subprocess import Popen, PIPE
 import os
 
 class HG:
 
     def __init__(self):
-        sh.hg("root") # Throw an error and die if this ever fails
+        out, err = Popen(["hg", "status"], stdout=PIPE, stderr=PIPE).communicate()
+        if not err:
+            self._status = [i for i in out.splitlines()]
+            self._build_status_dict()
 
-        self._status = [i for i in sh.hg("status").split('\n') if len(i) > 0]
-        self._build_status_dict()
-
-        self._branch = sh.hg("branch").split('\n')[0]
+        out, err = Popen(["hg", "branch"], stdout=PIPE, stderr=PIPE).communicate()
+        if not err:
+            self._branch = out.splitlines()[0]
 
     def _build_status_dict(self):
         self._status_dict = {}
@@ -43,8 +45,8 @@ class HG:
             return 0
 
     def need_update(self):
-        summary = sh.hg("summary")
-        if "current" in summary.split(':')[-1]:
+        out, err = Popen(["hg", "summary"], stdout=PIPE, stderr=PIPE).communicate()
+        if not err and "current" in out.splitlines()[-1]:
             return False
         return True
 
@@ -55,4 +57,6 @@ class HG:
             return True
 
     def changeset(self):
-        return sh.hg("id").strip('\n').split()[0]
+        out, err = Popen(["hg", "id"], stdout=PIPE, stderr=PIPE).communicate()
+        if not err:
+            return out.split()[0]
