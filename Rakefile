@@ -30,6 +30,7 @@ task :install do
       link_file(file)
     end
   end
+  install_vundle()
 end
 
 def replace_file(file)
@@ -47,4 +48,15 @@ def link_file(file)
     puts "linking ~/.#{file}"
     system %Q{ln -s "$PWD/#{file}" "$HOME/.#{file}"}
   end
+end
+
+def install_vundle
+  puts "Installing vim Vundle and plugins"
+  Dir.chdir("vim/bundle/vundle")
+  `git init`
+  `git remote add -t master origin git://github.com/gmarik/vundle.git`
+  `git pull`
+  `vim +BundleInstall +q +q`
+  Dir.chdir("../powerline")
+  `sudo python setup.py install`
 end
