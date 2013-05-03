@@ -60,4 +60,8 @@ class Git:
         return False
 
     def changeset(self):
-        return sh.git("rev-parse", "--short", "HEAD").strip('\n')
+        try:
+            return sh.git("rev-parse", "--short", "HEAD").strip('\n')
+        except:
+            return ""
+
