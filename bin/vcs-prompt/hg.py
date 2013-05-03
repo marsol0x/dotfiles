@@ -60,3 +60,6 @@ class HG:
         out, err = Popen(["hg", "id"], stdout=PIPE, stderr=PIPE).communicate()
         if not err:
             return out.split()[0]
+
+    def remote_commits(self):
+        return (0, 0) # TODO: Do the same for mercurial

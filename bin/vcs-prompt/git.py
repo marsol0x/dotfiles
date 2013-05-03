@@ -66,3 +66,14 @@ class Git:
             return out.splitlines()[0]
         else:
             return ""
+
+    def remote_commits(self):
+        out, err = Popen(["git", "rev-list", "--left-right", "origin/%s...HEAD" % self._branch], stdout=PIPE, stderr=PIPE).communicate()
+        up, down = 0, 0
+        if out:
+            for i in out.splitlines():
+                if i[0] == '>':
+                    up += 1
+                if i[0] == '<':
+                    down += 1
+        return (up, down)
