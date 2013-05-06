@@ -4,7 +4,7 @@
 import os
 from git import Git
 from hg import HG
-import sh
+from subprocess import Popen, PIPE
 
 glyphs = {
         "repo"      : u'',
@@ -27,17 +27,15 @@ colors = {
     }
 
 def is_cwd_repo():
-    try:
-        return os.path.join(os.getcwd(), sh.git("rev-parse", "--git-dir").strip())
-    except:
-        pass
+    out, err = Popen(["git", "rev-parse", "--git-dir"], stdout=PIPE, stderr=PIPE).communicate()
+    if not err:
+        return out.splitlines()[0]
 
-    try:
-        return os.path.join(sh.hg("root").strip(), ".hg")
-    except:
-        pass
+    out, err = Popen(["hg", "root"], stdout=PIPE, stderr=PIPE).communicate()
+    if not err:
+        return out.splitlines()[0]
 
-    return None
+    return False
 
 def vcs_prompt(path):
     repo = None
@@ -53,6 +51,7 @@ def vcs_prompt(path):
     update = repo.need_update()
     clean = repo.is_clean()
     changeset = repo.changeset()
+    ahead, behind = repo.remote_commits()
 
     # Construct prompt
     output = unicode(errors="replace")
@@ -65,7 +64,7 @@ def vcs_prompt(path):
     output += " " + colors['YELLOW'] + changeset + colors['NORMAL']
     change_string = unicode(errors="replace")
 
-    if clean and not update:
+    if clean and not update and not (ahead or behind):
         change_string += colors['GREEN'] + glyphs['clean'] + colors['NORMAL']
     else:
         if staged:
@@ -82,6 +81,12 @@ def vcs_prompt(path):
 
     if change_string:
         output += u" " + change_string
+
+    if ahead:
+        output += colors['BLUE'] + glyphs['ahead'] + u"%d" % (ahead) + colors['NORMAL']
+
+    if behind:
+        output += colors['CYAN'] + glyphs['behind'] + u"%d" % (behind) + colors['NORMAL']
 
     if update:
         output += colors['RED'] + u" !" + colors['NORMAL']

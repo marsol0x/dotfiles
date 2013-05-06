@@ -1,18 +1,19 @@
-import sh
+from subprocess import Popen, PIPE
 import os
 
 class Git:
 
     def __init__(self):
-        sh.git("rev-parse") # Throw error and die if this ever fails
+        out, err = Popen(["git", "status", "-s", "--porcelain"], stdout=PIPE, stderr=PIPE).communicate()
+        if not err:
+            self._status = [i for i in out.splitlines()]
+            self._build_status_dict()
 
-        self._status = [i for i in sh.git("status", "-s", "--porcelain").split('\n') if len(i) > 0]
-        self._build_status_dict()
-
-        branch = sh.git("branch", "--no-color")
-        self._branch = ""
-        if branch:
-            self._branch = [i for i in branch.split('\n') if len(i) > 0 and i[0] == '*'][0].split()[-1]
+        out, err = Popen(["git", "branch", "--no-color"], stdout=PIPE, stderr=PIPE).communicate()
+        if not err and len(out):
+            self._branch = filter(lambda x: '*' in x, out.splitlines())[0].split()[-1]
+        else:
+            self._branch = out
 
     def _build_status_dict(self):
         self._status_dict = {}
@@ -60,8 +61,19 @@ class Git:
         return False
 
     def changeset(self):
-        try:
-            return sh.git("rev-parse", "--short", "HEAD").strip('\n')
-        except:
+        out, err = Popen(["git", "rev-parse", "--short", "HEAD"], stdout=PIPE, stderr=PIPE).communicate()
+        if not err:
+            return out.splitlines()[0]
+        else:
             return ""
 
+    def remote_commits(self):
+        out, err = Popen(["git", "rev-list", "--left-right", "origin/%s...HEAD" % self._branch], stdout=PIPE, stderr=PIPE).communicate()
+        up, down = 0, 0
+        if out:
+            for i in out.splitlines():
+                if i[0] == '>':
+                    up += 1
+                if i[0] == '<':
+                    down += 1
+        return (up, down)
