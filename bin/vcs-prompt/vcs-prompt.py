@@ -78,15 +78,13 @@ def vcs_prompt(path):
             change_string += colors['NORMAL']
         elif untracked:
             change_string += colors['YELLOW'] + glyphs['modified'] + str(untracked) + glyphs['untracked'] + colors['NORMAL']
+        if ahead:
+            change_string += colors['BLUE'] + glyphs['ahead'] + u"%d" % (ahead) + colors['NORMAL']
+        if behind:
+            change_string += colors['CYAN'] + glyphs['behind'] + u"%d" % (behind) + colors['NORMAL']
 
     if change_string:
         output += u" " + change_string
-
-    if ahead:
-        output += colors['BLUE'] + glyphs['ahead'] + u"%d" % (ahead) + colors['NORMAL']
-
-    if behind:
-        output += colors['CYAN'] + glyphs['behind'] + u"%d" % (behind) + colors['NORMAL']
 
     if update:
         output += colors['RED'] + u" !" + colors['NORMAL']
