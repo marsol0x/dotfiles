@@ -6,7 +6,7 @@ export PATH
 
 # Prompt
 setopt prompt_subst
-export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)[%n@%m %F{green}%.%F{reset}]\$ '
+export PROMPT='%T %(1j.(%F{cyan}%j%F{reset}) .)[%n@%m %F{green}%.%F{reset}]\$ '
 export RPROMPT='$(~/.bin/vcs-prompt/vcs-prompt.py)'
 
 # Aliases
@@ -57,3 +57,4 @@ then
 else
     archey
 fi
+todo.sh ls
