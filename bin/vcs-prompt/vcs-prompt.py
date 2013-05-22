@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-import os
+import os, sys
 from git import Git
 from hg import HG
 from subprocess import Popen, PIPE
@@ -41,8 +41,10 @@ def vcs_prompt(path):
     repo = None
     if os.path.basename(path) == ".git":
         repo = Git()
-    else:
+    elif os.path.basename(path) == ".hg":
         repo = HG()
+    else:
+        sys.exit(1)
 
     branch = repo.branch()
     untracked = repo.num_untracked()
