@@ -73,3 +73,7 @@ let g:jedi#popup_on_dot=0
 
 " Filetype configurations
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+
+" CTags
+map <F4> :!ctags --tag-relative=yes -o .tags -R . 2>/dev/null<CR><CR>
+set tags=.tags
