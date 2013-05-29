@@ -4,7 +4,7 @@
 import os, sys
 from git import Git
 from hg import HG
-from subprocess import Popen, PIPE
+from subprocess import check_output, CalledProcessError
 
 glyphs = {
         "repo"      : u'',
@@ -27,13 +27,18 @@ colors = {
     }
 
 def is_cwd_repo():
-    out, err = Popen(["git", "rev-parse", "--git-dir"], stdout=PIPE, stderr=PIPE).communicate()
-    if not err:
-        return out.splitlines()[0]
+    with open("/dev/null", "w+") as f:
+        try:
+            out = check_output(['git', 'rev-parse', '--git-dir'], stderr=f)
+            return out.splitlines()[0]
+        except CalledProcessError:
+            pass
 
-    out, err = Popen(["hg", "root"], stdout=PIPE, stderr=PIPE).communicate()
-    if not err:
-        return out.splitlines()[0]
+        try:
+            out = check_output(['hg', 'root'], stderr=f)
+            return os.path.join(out.splitlines()[0], '.hg')
+        except CalledProcessError:
+            pass
 
     return False
 
