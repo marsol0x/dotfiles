@@ -1,7 +1,7 @@
 autoload -U colors && colors
 
 # PATH
-PATH=$HOME/.bin:/usr/local/bin:/usr/local/share/python:$PATH
+PATH=$HOME/.bin:/usr/local/bin:/usr/local/share/python:/usr/local/opt/ruby/bin:$PATH
 export PATH
 
 # Prompt
@@ -58,3 +58,5 @@ else
     archey
 fi
 todo.sh ls
+
+PATH=$PATH:/usr/local/rvm/bin # Add RVM to PATH for scripting
