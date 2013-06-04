@@ -60,6 +60,10 @@ Bundle 'rodjek/vim-puppet'
 Bundle 'scrooloose/nerdtree'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'voithos/vim-python-matchit'
+Bundle 'vim-scripts/python.vim--Vasiliev'
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-easytags'
+Bundle 'tpope/vim-fugitive'
 
 filetype plugin indent on
 
