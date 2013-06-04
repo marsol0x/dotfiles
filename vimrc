@@ -53,17 +53,17 @@ Bundle 'gmarik/vundle'
 
 " My bundles go here
 Bundle 'Lokaltog/powerline'
-Bundle 'davidhalter/jedi-vim'
+Bundle 'Valloric/YouCompleteMe'
 Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'godlygeek/tabular'
 Bundle 'rodjek/vim-puppet'
 Bundle 'scrooloose/nerdtree'
+Bundle 'tpope/vim-fugitive'
+Bundle 'vim-scripts/python.vim--Vasiliev'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'voithos/vim-python-matchit'
-Bundle 'vim-scripts/python.vim--Vasiliev'
-Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-easytags'
-Bundle 'tpope/vim-fugitive'
+Bundle 'xolox/vim-misc'
 
 filetype plugin indent on
 
@@ -71,9 +71,6 @@ runtime macros/matchit.vim
 
 " NERDTree Ignores
 let NERDTreeIgnore = ['\.pyc$']
-
-" Jedi
-let g:jedi#popup_on_dot=0
 
 " Filetype configurations
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
