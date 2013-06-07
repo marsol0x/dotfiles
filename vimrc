@@ -84,6 +84,13 @@ let NERDTreeIgnore = ['\.pyc$']
 " Filetype configurations
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
-" CTags
-map <F4> :!ctags --tag-relative=yes -o .tags -R . 2>/dev/null<CR><CR>
-set tags=.tags
+" Easy Tags
+let g:easytags_updatetime_warn = 0
+
+function UpdateProjectTags()
+    let g:easytags_autorecurse = 1
+    :UpdateTags!
+    let g:easytags_autorecurse = 0
+endfunction
+
+map <F4> :call UpdateProjectTags()<CR>
