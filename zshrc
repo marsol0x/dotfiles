@@ -23,7 +23,7 @@ alias emacs="emacs -nw"
 
 # history
 HISTFILE=~/.histfile
-HISTSIZE=1000
+HISTSIZE=4096
 SAVEHIST=1000
 setopt APPEND_HISTORY
 
@@ -36,7 +36,7 @@ zstyle ':completion:*' menu select
 setopt completealiases
 
 export EDITOR='vim' # all vim all the time
-export HISTSIZE=4096 # history
+#export HISTSIZE=4096 # history
 export CLICOLOR="YES" # all CLI colors on 
 export TERM=xterm-256color
 
