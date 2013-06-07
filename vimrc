@@ -29,6 +29,16 @@ set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 set laststatus=2
 
+" Exit modes immediately
+if ! has('gui_running')
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif
+
 let mapleader=","
 map <F2> :NERDTreeToggle<CR>
 map <F3> :TlistToggle<CR>:10wincmd h<CR>
