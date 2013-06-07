@@ -22,9 +22,8 @@ set ttyfast
 
 set ruler
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-"set textwidth=79
 set listchars=tab:▸\ ,eol:¬
-"set list
+set cursorline
 
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
