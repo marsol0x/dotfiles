@@ -50,12 +50,6 @@ precmd () {
     echo -ne "\e]1;${tab_label: -24}\a" # set tab title to rightmost 24 characters
 }
 
-if [[ `uname` == "Darwin" ]]
-then
-    ~/.bin/archey-osx
-else
-    archey
-fi
 todo.sh ls
 
 PATH=$PATH:/usr/local/rvm/bin # Add RVM to PATH for scripting
