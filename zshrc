@@ -13,13 +13,12 @@ export RPROMPT='$(~/.bin/vcs-prompt/vcs-prompt.py)'
 if [[ `uname` != "Darwin" ]]
 then
     alias ls="ls -F --group-directories-first --color=auto"
+    alias sed="gsed"
 else
     alias ls="ls -FG"
 fi
 alias ll="ls -l"
 alias grep="grep --color=auto"
-alias sed="gsed"
-alias emacs="emacs -nw"
 
 # history
 HISTFILE=~/.histfile
