@@ -1,6 +1,6 @@
+autocmd!
 set nocompatible
-
-set nu
+set relativenumber
 syntax on
 colors molokai
 set encoding=utf-8
@@ -24,6 +24,12 @@ set ruler
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 set listchars=tab:▸\ ,eol:¬
 set cursorline
+
+" Relative Numbering
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+autocmd WinEnter * :setlocal relativenumber
+autocmd WinLeave * :setlocal number
 
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
@@ -50,7 +56,6 @@ noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
 
-set nocompatible
 filetype off    " Required
 
 set rtp+=~/.vim/bundle/vundle
