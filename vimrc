@@ -45,6 +45,17 @@ if ! has('gui_running')
     augroup END
 endif
 
+" GUI stuff
+if has('gui_running')
+    set background=dark
+    colors solarized
+    set guifont=Source_Code_Pro_for_Powerline:h12
+    set guioptions-=T
+    set guioptions-=m
+    set guioptions+=LlRrb
+    set guioptions-=LlRrb
+endif
+
 let mapleader=","
 map <F2> :NERDTreeToggle<CR>
 map <F3> :TlistToggle<CR>:10wincmd h<CR>
