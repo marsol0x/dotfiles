@@ -103,10 +103,12 @@ autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
 " Easy Tags
 let g:easytags_updatetime_warn = 0
+set tags=./.tags;
+let g:easytags_dynamic_files = 2
 
-function UpdateProjectTags()
+function! UpdateProjectTags()
     let g:easytags_autorecurse = 1
-    :UpdateTags!
+    :UpdateTags
     let g:easytags_autorecurse = 0
 endfunction
 
