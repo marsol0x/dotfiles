@@ -6,7 +6,7 @@ export PATH
 
 # Prompt
 setopt prompt_subst
-export PROMPT='%T %(1j.(%F{cyan}%j%F{reset}) .)[%n@%m %F{green}%.%F{reset}]\$ '
+export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)[%n@%m %F{green}%.%F{reset}]\$ '
 export RPROMPT='$(~/.bin/vcs-prompt/vcs-prompt.py)'
 
 # Aliases
@@ -51,6 +51,9 @@ precmd () {
     echo -ne "\e]1;${tab_label: -24}\a" # set tab title to rightmost 24 characters
 }
 
-todo.sh ls
+# Search history
+function hs () {
+    history | grep -i $1
+}
 
 PATH=$PATH:/usr/local/rvm/bin # Add RVM to PATH for scripting
