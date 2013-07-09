@@ -80,6 +80,8 @@ endif
 if has('gui_running')
     set background=dark
     colors solarized
+    set columns=180
+    set lines=54
     set guifont=Source_Code_Pro_for_Powerline:h13
     set guioptions-=T
     set guioptions-=m
