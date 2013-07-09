@@ -1,8 +1,39 @@
 autocmd!
 set nocompatible
+filetype off    " Required
+
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+" Have Vundle manage Vundle
+" Required
+Bundle 'gmarik/vundle'
+
+" My bundles go here
+Bundle 'Lokaltog/powerline'
+Bundle 'Valloric/YouCompleteMe'
+"Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'kien/ctrlp.vim'
+Bundle 'godlygeek/tabular'
+Bundle 'rodjek/vim-puppet'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
+Bundle 'tpope/vim-fugitive'
+"Bundle 'vim-scripts/python.vim--Vasiliev'
+Bundle 'klen/python-mode'
+Bundle 'vim-scripts/taglist.vim'
+Bundle 'voithos/vim-python-matchit'
+Bundle 'xolox/vim-easytags'
+Bundle 'xolox/vim-misc'
+Bundle 'chriskempson/vim-tomorrow-theme'
+
+filetype plugin indent on
+
 set relativenumber
 syntax on
-colors molokai
+set background=dark
+colors Tomorrow-Night-Eighties
+"colors molokai
 set encoding=utf-8
 set title
 set hlsearch
@@ -49,7 +80,7 @@ endif
 if has('gui_running')
     set background=dark
     colors solarized
-    set guifont=Source_Code_Pro_for_Powerline:h12
+    set guifont=Source_Code_Pro_for_Powerline:h13
     set guioptions-=T
     set guioptions-=m
     set guioptions+=LlRrb
@@ -66,32 +97,6 @@ noremap <Up> <nop>
 noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
-
-filetype off    " Required
-
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
-
-" Have Vundle manage Vundle
-" Required
-Bundle 'gmarik/vundle'
-
-" My bundles go here
-Bundle 'Lokaltog/powerline'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'godlygeek/tabular'
-Bundle 'rodjek/vim-puppet'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-fugitive'
-Bundle 'vim-scripts/python.vim--Vasiliev'
-Bundle 'vim-scripts/taglist.vim'
-Bundle 'voithos/vim-python-matchit'
-Bundle 'xolox/vim-easytags'
-Bundle 'xolox/vim-misc'
-
-filetype plugin indent on
 
 runtime macros/matchit.vim
 
@@ -113,3 +118,26 @@ function! UpdateProjectTags()
 endfunction
 
 map <F4> :call UpdateProjectTags()<CR>
+
+" ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(pyc)$',
+    \ }
+
+" Python-Mode
+let g:pymode_lint = 0 " let syntastic do linting
+let g:pymode_virtualenv = 0
+let g:pymode_breakpoint = 0
+let g:pymode_syntax_print_as_function = 1
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_highlight_string_format = 1
+let g:pymode_syntax_highlight_builtin_objs = 1
+let g:pymode_indent = 1
+let g:pymode_run = 0
+let g:pymode_rope_vim_completion = 0 "use jedi
+let g:pymode_rope_autocomplete_map = '<C-Tab>' "just make this mostly useless
