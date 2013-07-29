@@ -19,7 +19,10 @@ else
     alias sed="gsed"
     alias grep="ggrep --color=auto"
 fi
+alias ls="gls -F --group-directories-first --color=auto"
 alias ll="ls -l"
+
+eval `gdircolors /Users/mhelsper/Documents/Themes/dircolors-solarized-git/dircolors.ansi-dark`
 
 # history
 HISTFILE=~/.histfile
