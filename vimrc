@@ -12,14 +12,11 @@ Bundle 'gmarik/vundle'
 " My bundles go here
 Bundle 'Lokaltog/powerline'
 Bundle 'Valloric/YouCompleteMe'
-"Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'kien/ctrlp.vim'
 Bundle 'godlygeek/tabular'
 Bundle 'rodjek/vim-puppet'
-Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
-"Bundle 'vim-scripts/python.vim--Vasiliev'
 Bundle 'klen/python-mode'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'voithos/vim-python-matchit'
@@ -89,7 +86,6 @@ if has('gui_running')
 endif
 
 let mapleader=","
-map <F2> :NERDTreeToggle<CR>
 map <F3> :TlistToggle<CR>:10wincmd h<CR>
 
 noremap j gj
@@ -100,9 +96,6 @@ noremap <Left> <nop>
 noremap <Right> <nop>
 
 runtime macros/matchit.vim
-
-" NERDTree Ignores
-let NERDTreeIgnore = ['\.pyc$']
 
 " Filetype configurations
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
