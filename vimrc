@@ -26,6 +26,7 @@ Bundle 'voithos/vim-python-matchit'
 Bundle 'xolox/vim-easytags'
 Bundle 'xolox/vim-misc'
 Bundle 'chriskempson/vim-tomorrow-theme'
+Bundle 'vim-scripts/csv.vim'
 
 filetype plugin indent on
 
