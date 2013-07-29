@@ -134,3 +134,4 @@ let g:pymode_indent = 1
 let g:pymode_run = 0
 let g:pymode_rope_vim_completion = 0 "use jedi
 let g:pymode_rope_autocomplete_map = '<C-Tab>' "just make this mostly useless
+let g:pymode_folding = 0
