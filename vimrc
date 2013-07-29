@@ -30,8 +30,7 @@ filetype plugin indent on
 set relativenumber
 syntax on
 set background=dark
-colors Tomorrow-Night-Eighties
-"colors molokai
+colors solarized
 set encoding=utf-8
 set title
 set hlsearch
