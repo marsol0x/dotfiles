@@ -7,3 +7,4 @@
 /clock off
 /test addworld("SWU", "", "swuprising.net", "1138")
 /test addworld("WC", "", "wcmush.com", "2199")
+/test addworld("MUSH", "", "mush.pennmush.org", "4201")
