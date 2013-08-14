@@ -16,7 +16,7 @@ then
     alias ls="ls -F --group-directories-first --color=auto"
     alias grep="grep --color=auto"
 else
-    alias ls="ls -FG"
+    alias ls="gls -F --group-directories-first --color=auto"
     alias sed="gsed"
     alias grep="ggrep --color=auto"
 fi
@@ -40,11 +40,16 @@ zstyle ':completion:*' menu select
 setopt completealiases
 
 export EDITOR='vim' # all vim all the time
-#export HISTSIZE=4096 # history
 export CLICOLOR="YES" # all CLI colors on 
-export TERM=xterm-256color
+if [[ $TMUX == '' ]]
+then
+    export TERM=xterm-256color
+else
+    export TERM=screen-256color
+fi
 
 # keybindings
+bindkey -v
 bindkey "^P" history-search-backward
 bindkey "^N" history-search-forward
 

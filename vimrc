@@ -24,13 +24,14 @@ Bundle 'xolox/vim-easytags'
 Bundle 'xolox/vim-misc'
 Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'vim-scripts/csv.vim'
+Bundle 'terryma/vim-multiple-cursors'
 
 filetype plugin indent on
 
 set relativenumber
 syntax on
 set background=dark
-colors solarized
+colors molokai
 set encoding=utf-8
 set title
 set hlsearch
