@@ -1,7 +1,8 @@
 autoload -U colors && colors
 
 # PATH
-PATH=$HOME/.bin:/usr/local/bin:/usr/local/share/python:/usr/local/opt/ruby/bin:$PATH
+PATH=$HOME/.bin:/usr/local/bin:/usr/local/opt/ruby/bin:$PATH
+PATH=$PATH:/usr/local/rvm/bin # Add RVM to PATH for scripting
 export PATH
 
 # Prompt
@@ -59,4 +60,3 @@ function hs () {
     history | grep -i $1
 }
 
-PATH=$PATH:/usr/local/rvm/bin # Add RVM to PATH for scripting
