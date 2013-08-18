@@ -16,7 +16,7 @@ glyphs = {
         "behind"    : u'↓',
     }
 colors = {
-        "NORMAL" : u'%F{reset}',
+        "NORMAL" : u'%f',
         "BLUE"   : u'%F{blue}',
         "CYAN"   : u'%F{cyan}',
         "GREEN"  : u'%F{green}',
@@ -97,7 +97,7 @@ def vcs_prompt(path):
         output += colors['RED'] + u" !" + colors['NORMAL']
 
     print output.encode("UTF-8")
-        
+
 
 if __name__ == '__main__':
     cwd = is_cwd_repo()
