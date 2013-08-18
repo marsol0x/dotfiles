@@ -6,8 +6,7 @@ export PATH
 
 # Prompt
 setopt prompt_subst
-export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)[%n@%m %F{green}%.%F{reset}]\$ '
-export RPROMPT='$(~/.bin/vcs-prompt/vcs-prompt.py)'
+export PROMPT='[%F{green}%T%f] %(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)]%(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Aliases
 if [[ `uname` != "Darwin" ]]
@@ -64,3 +63,61 @@ function hs () {
     history | grep -i $1
 }
 
+# Fishy collapse of pwd
+function _fishy_collapse_wd() {
+    echo $(pwd | perl -pe "
+        BEGIN {
+            binmode STDIN, ':encoding(UTF-8)';
+            binmode STDOUT, ':encoding(UTF-8)';
+        }; s|^$HOME|~|g; s|/([^/])[^/]*(?=/)|/\$1|g
+    ")
+}
+
+# Source Control Status Prompts
+function _vcs_branch() {
+    BRANCH=`git branch --no-color 2> /dev/null`
+    if [[ $? -eq 0 ]]
+    then
+        echo "%F{green}`echo $BRANCH| grep -i \* | awk -F'*' '{print $2}' | tr -d ' '`%f"
+        return
+    fi
+
+    BRANCH=`hg branch 2> /dev/null`
+    if [[ $? -eq 0 ]]
+    then
+        echo "%F{cyan}$BRANCH%f"
+        return
+    fi
+
+    echo '%F{magenta}-%f'
+}
+
+function _vcs_status() {
+    STAT=`git status -s --porcelain 2> /dev/null`
+    if [[ $? -eq 0 ]]
+    then
+        if [[ `echo $STAT | wc -w | tr -d ' '` -ne 0 ]]
+        then
+            echo "%F{red}•%f"
+            return
+        else
+            echo "%F{green}✓%f"
+            return
+        fi
+    fi
+
+    STAT=`hg status 2> /dev/null`
+    if [[ $? -eq 0 ]]
+    then
+        if [[ `echo $STAT | wc -w | tr -d ' '` -ne 0 ]]
+        then
+            echo "%F{red}•%f"
+            return
+        else
+            echo "%F{green}✓%f"
+            return
+        fi
+    fi
+
+    echo '%F{magenta}-%f'
+}
