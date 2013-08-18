@@ -1,8 +1,7 @@
 autoload -U colors && colors
 
 # PATH
-PATH=$HOME/.bin:/usr/local/bin:/usr/local/opt/ruby/bin:$PATH
-PATH=$PATH:/usr/local/rvm/bin # Add RVM to PATH for scripting
+PATH=$HOME/.bin:/usr/local/bin:/usr/local/opt/ruby/bin:/usr/local/rvm/bin:$PATH
 export PATH
 
 # Prompt
