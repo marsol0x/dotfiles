@@ -1,3 +1,5 @@
+set t_Co=256
+set t_ut=
 autocmd!
 set nocompatible
 filetype off    " Required
@@ -24,6 +26,7 @@ Bundle 'xolox/vim-easytags'
 Bundle 'xolox/vim-misc'
 Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'vim-scripts/csv.vim'
+Bundle 'jnwhiteh/vim-golang'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'derekwyatt/vim-scala'
 
@@ -90,6 +93,8 @@ endif
 
 let mapleader=","
 map <F3> :TlistToggle<CR>:10wincmd h<CR>
+let g:multi_cursor_start_key='<Leader>n'
+
 
 noremap j gj
 noremap k gk
