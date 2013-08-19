@@ -25,6 +25,7 @@ Bundle 'xolox/vim-misc'
 Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'vim-scripts/csv.vim'
 Bundle 'terryma/vim-multiple-cursors'
+Bundle 'derekwyatt/vim-scala'
 
 filetype plugin indent on
 
@@ -80,7 +81,7 @@ if has('gui_running')
     colors solarized
     set columns=180
     set lines=54
-    set guifont=Source_Code_Pro_for_Powerline:h13
+    set guifont=Source\ Code\ Pro\ for\ Powerline\ h10
     set guioptions-=T
     set guioptions-=m
     set guioptions+=LlRrb

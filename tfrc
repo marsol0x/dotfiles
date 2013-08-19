@@ -1,4 +1,6 @@
 /load kb-old.tf
+/require tools.tf
+/xtitle tinyfugue
 /set isize=5
 /set wrap=on
 /set wrapsize=79
