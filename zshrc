@@ -6,7 +6,7 @@ export PATH
 
 # Prompt
 setopt prompt_subst
-export PROMPT='[%F{green}%T%f] %(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)]%(!.$F{red}#%f.%F{blue}\$%f) '
+export PROMPT='[%F{green}%T%f] %(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Aliases
 if [[ `uname` != "Darwin" ]]
@@ -120,4 +120,20 @@ function _vcs_status() {
     fi
 
     echo '%F{magenta}-%f'
+}
+
+function _vcs_git_remote() {
+    git rev-parse --git-dir &> /dev/null
+    if [[ $? -eq 0 ]]
+    then
+        BRANCH=`git branch --no-color | grep \* | awk '{print $2}'`
+        RSTATUS=`git rev-list --left-right origin/$BRANCH...HEAD 2> /dev/null`
+        if [[ $? -ne 0 ]]; then return; fi
+
+        if [[ `echo $RSTATUS | wc -w | tr -d ' '` -ne 0 ]]
+        then
+            echo "%F{yellow}*%f"
+            return
+        fi
+    fi
 }
