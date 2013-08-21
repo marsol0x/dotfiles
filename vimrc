@@ -57,6 +57,11 @@ set ruler
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 set listchars=tab:▸\ ,eol:¬
 set cursorline
+set so=14
+
+" Mouse Stuff
+set mouse=n
+set ttymouse=xterm2
 
 " Relative Numbering
 autocmd InsertEnter * :set number
