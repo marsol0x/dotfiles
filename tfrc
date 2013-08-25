@@ -3,7 +3,7 @@
 /xtitle tinyfugue
 /set isize=5
 /set wrap=on
-/set wrapsize=79
+/set wrapsize=80
 /set wrapspace=2
 /set tabsize=2
 /clock off
