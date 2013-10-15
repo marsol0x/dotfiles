@@ -24,7 +24,6 @@ Bundle 'vim-scripts/taglist.vim'
 Bundle 'voithos/vim-python-matchit'
 Bundle 'xolox/vim-easytags'
 Bundle 'xolox/vim-misc'
-Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'vim-scripts/csv.vim'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'terryma/vim-multiple-cursors'
@@ -35,7 +34,7 @@ filetype plugin indent on
 set relativenumber
 syntax on
 set background=dark
-colors molokai
+colors solarized
 set encoding=utf-8
 set title
 set hlsearch
@@ -134,6 +133,7 @@ let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
     \ 'file': '\v\.(pyc)$',
     \ }
+map <leader>b :CtrlPBuffer<CR>
 
 " Python-Mode
 let g:pymode_lint = 0 " let syntastic do linting
