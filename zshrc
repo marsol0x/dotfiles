@@ -50,6 +50,7 @@ fi
 bindkey -v
 bindkey "^P" history-search-backward
 bindkey "^N" history-search-forward
+bindkey "^R" history-incremental-search-backward
 
 # set tab title to cwd
 precmd () {

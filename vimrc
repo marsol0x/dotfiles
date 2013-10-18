@@ -138,6 +138,7 @@ let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
     \ 'file': '\v\.(pyc)$',
     \ }
+map <leader>b :CtrlPBuffer<CR>
 
 " Python-Mode
 let g:pymode_lint = 0 " let syntastic do linting
