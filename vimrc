@@ -12,7 +12,8 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " My bundles go here
-Bundle 'Lokaltog/powerline'
+Bundle 'bling/vim-airline'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'kien/ctrlp.vim'
 Bundle 'godlygeek/tabular'
@@ -24,8 +25,6 @@ Bundle 'vim-scripts/taglist.vim'
 Bundle 'voithos/vim-python-matchit'
 Bundle 'xolox/vim-easytags'
 Bundle 'xolox/vim-misc'
-Bundle 'chriskempson/vim-tomorrow-theme'
-Bundle 'vim-scripts/csv.vim'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'derekwyatt/vim-scala'
@@ -35,7 +34,7 @@ filetype plugin indent on
 set relativenumber
 syntax on
 set background=dark
-colors molokai
+colors solarized
 set encoding=utf-8
 set title
 set hlsearch
@@ -69,9 +68,14 @@ autocmd InsertLeave * :set relativenumber
 autocmd WinEnter * :setlocal relativenumber
 autocmd WinLeave * :setlocal number
 
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-let g:Powerline_symbols = 'fancy'
+" Airline > powerline
 set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" Git gutter
+highlight clear SignColumn
+let g:gitgutter_sign_column_always = 1
 
 " Exit modes immediately
 if ! has('gui_running')
