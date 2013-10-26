@@ -21,7 +21,7 @@ alias grep="grep --color=auto"
 # history
 HISTFILE=~/.histfile
 HISTSIZE=4096
-SAVEHIST=1000
+SAVEHIST=4096
 setopt APPEND_HISTORY
 
 setopt menucomplete
@@ -48,7 +48,7 @@ bindkey "^N" history-search-forward
 bindkey "^R" history-incremental-search-backward
 
 # set tab title to cwd
-precmd () {
+function precmd () {
     tab_label=${PWD/${HOME}/\~} # use 'relative' path
     echo -ne "\e]2;${tab_label}\a" # set window title to full string
     echo -ne "\e]1;${tab_label: -24}\a" # set tab title to rightmost 24 characters
