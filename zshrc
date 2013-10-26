@@ -33,7 +33,7 @@ zstyle ':completion:*' menu select
 setopt completealiases
 
 export EDITOR='vim' # all vim all the time
-export CLICOLOR="YES" # all CLI colors on 
+export CLICOLOR="YES" # all CLI colors on
 if [[ $TMUX == '' ]]
 then
     export TERM=xterm-256color
