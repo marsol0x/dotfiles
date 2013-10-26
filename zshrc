@@ -9,19 +9,14 @@ setopt prompt_subst
 export PROMPT='[%F{green}%T%f] %(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Aliases
-if [[ `uname` != "Darwin" ]]
+if [[ `uname` = "Darwin" ]]
 then
-    alias ls="ls -F --group-directories-first --color=auto"
-    alias grep="grep --color=auto"
-else
-    alias ls="gls -F --group-directories-first --color=auto"
     alias sed="gsed"
-    alias grep="ggrep --color=auto"
+    alias grep="ggrep"
 fi
 alias ls="gls -F --group-directories-first --color=auto"
 alias ll="ls -l"
-
-eval `gdircolors /Users/mhelsper/Documents/Themes/dircolors-solarized-git/dircolors.ansi-dark`
+alias grep="grep --color=auto"
 
 # history
 HISTFILE=~/.histfile
