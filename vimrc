@@ -116,6 +116,7 @@ runtime macros/matchit.vim
 
 " Filetype configurations
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+au BufRead,BufWrite *.conf set ft=config
 
 " Easy Tags
 let g:easytags_updatetime_warn = 0
