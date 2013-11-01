@@ -12,11 +12,20 @@ export PROMPT='[%F{green}%T%f] %(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd
 if [[ `uname` = "Darwin" ]]
 then
     alias sed="gsed"
-    alias grep="ggrep"
+    alias grep="ggrep --color=auto"
+else
+    alias grep="grep --color=auto"
 fi
 alias ls="gls -F --group-directories-first --color=auto"
 alias ll="ls -l"
-alias grep="grep --color=auto"
+
+# Testing aliases
+alias t="%"
+alias j="jobs"
+alias pd="pushd"
+alias p="popd"
+alias cls="clear; ls"
+
 
 # history
 HISTFILE=~/.histfile
@@ -136,7 +145,7 @@ function _vcs_git_remote() {
 
 # vi-mode stuff
 function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+    RPS1="${${KEYMAP/vicmd/[NORMAL]}/(main|viins)/[INSERT]}"
     RPS2=$RPS1
     zle reset-prompt
 }
