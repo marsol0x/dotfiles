@@ -1,11 +1,11 @@
-set t_Co=256
-set t_ut=
+set t_Co=256                  " Number of supported color
+set t_ut=                     " Clear using current bg color
 autocmd!
-set nocompatible
-filetype off    " Required
+set nocompatible              " This ain't your daddy's vi
+filetype off                  " Required for plugins
 
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+set rtp+=~/.vim/bundle/vundle " Set vundle as our runtime path
+call vundle#rc()              " Start vundle
 
 " Have Vundle manage Vundle
 " Required
@@ -31,42 +31,57 @@ Bundle 'derekwyatt/vim-scala'
 
 filetype plugin indent on
 
-set relativenumber
 syntax on
 set background=dark
 colors solarized
 set encoding=utf-8
-set title
-set hlsearch
-set incsearch
-set ignorecase
-set showcmd
-set history=1000
-set wildmode=list:longest
-set visualbell
-set linebreak
-
-set backspace=indent,eol,start
-set noswapfile
-set autoindent
-set copyindent
-set ttyfast
-
-set ruler
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+set title                       " Set window title to show filename and path
+set hlsearch                    " Highlight all search matches
+set incsearch                   " Highlight search matches as I type
+set ignorecase                  " Ignore case in pattern matching
+set showcmd                     " Show commands as I type them
+set history=1000                " History size for commands, search, etc
+set wildmode=list:longest       " List all possible matches when I auto-complete
+set visualbell                  " Beeping is annoying
+set linebreak                   " When wrapping, wrap on the word, rather than the character
+set noswapfile                  " Disable swapfiles
+set autoindent                  " Autoindent each newline to same indent of prev line
+set copyindent                  " Copy the indent when indenting
+set backspace=indent,eol,start  " Backspace autoindent and such
+set ttyfast                     " I have a fast terminal
+set ruler                       " Show line/col number, Airline does this regardless
+set sw=4 st=4 ts=4 expandtab
 set listchars=tab:▸\ ,eol:¬
 set cursorline
-set so=14
+set so=14                       " Minimum number of screenlines for scrolling
 
 " Mouse Stuff
-set mouse=n
+set mouse=n " Enable the mouse in normal mode
 set ttymouse=xterm2
 
 " Relative Numbering
+set relativenumber
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 autocmd WinEnter * :setlocal relativenumber
 autocmd WinLeave * :setlocal number
+
+" Filetype configurations
+autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+au BufRead,BufWrite *.conf set ft=config
+
+" Mappings
+noremap j gj
+noremap k gk
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+
+let mapleader=","
+map <leader>n :bn<CR>
+map <leader>p :bp<CR>
+map <F3> :TlistToggle<CR>:10wincmd h<CR>
 
 " Airline > powerline
 set laststatus=2
@@ -77,46 +92,11 @@ let g:airline#extensions#tabline#enabled = 1
 highlight clear SignColumn
 let g:gitgutter_sign_column_always = 1
 
-" Exit modes immediately
-if ! has('gui_running')
-    set ttimeoutlen=10
-    augroup FastEscape
-        autocmd!
-        au InsertEnter * set timeoutlen=0
-        au InsertLeave * set timeoutlen=1000
-    augroup END
-endif
-
-" GUI stuff
-if has('gui_running')
-    set background=dark
-    colors solarized
-    set columns=180
-    set lines=54
-    set guifont=Source\ Code\ Pro\ for\ Powerline\ h10
-    set guioptions-=T
-    set guioptions-=m
-    set guioptions+=LlRrb
-    set guioptions-=LlRrb
-endif
-
-let mapleader=","
-map <F3> :TlistToggle<CR>:10wincmd h<CR>
+" Multi-line cursor
 let g:multi_cursor_start_key='<Leader>n'
 
-
-noremap j gj
-noremap k gk
-noremap <Up> <nop>
-noremap <Down> <nop>
-noremap <Left> <nop>
-noremap <Right> <nop>
-
+" Matchit, for % matching in Python conditionals
 runtime macros/matchit.vim
-
-" Filetype configurations
-autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-au BufRead,BufWrite *.conf set ft=config
 
 " Easy Tags
 let g:easytags_updatetime_warn = 0
@@ -140,8 +120,6 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\v\.(pyc)$',
     \ }
 map <leader>b :CtrlPBuffer<CR>
-map <leader>n :bn<CR>
-map <leader>p :bp<CR>
 
 " Python-Mode
 let g:pymode_lint = 0 " let syntastic do linting
@@ -157,3 +135,22 @@ let g:pymode_run = 0
 let g:pymode_rope_vim_completion = 0 "use jedi
 let g:pymode_rope_autocomplete_map = '<C-Tab>' "just make this mostly useless
 let g:pymode_folding = 0
+
+" GUI stuff
+if has('gui_running')
+    set columns=180
+    set lines=54
+    set guifont=Source\ Code\ Pro\ for\ Powerline\ h10
+    set guioptions-=T
+    set guioptions-=m
+    set guioptions+=LlRrb
+    set guioptions-=LlRrb
+else
+    " Exit modes immediately
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif
