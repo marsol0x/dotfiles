@@ -1,12 +1,20 @@
 autoload -U colors && colors
 
 # PATH
-PATH=$HOME/.bin:/usr/local/bin:/usr/local/opt/ruby/bin:/usr/local/rvm/bin:$PATH
+PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:/usr/local/opt/ruby/bin:/usr/local/rvm/bin:$PATH
 export PATH
 
 # Prompt
 setopt prompt_subst
 export PROMPT='[%F{green}%T%f] %(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
+
+# Dircolors
+if [[ `uname` = "Darwin" ]]
+then
+    eval `gdircolors ~/.dircolors`
+else
+    eval `dircolors ~/.dircolors`
+fi
 
 # Aliases
 if [[ `uname` = "Darwin" ]]
