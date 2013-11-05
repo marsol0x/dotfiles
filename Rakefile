@@ -58,7 +58,5 @@ def install_vundle
     `git remote add -t master origin git://github.com/gmarik/vundle.git`
     `git pull`
     `vim +BundleInstall +q +q`
-    Dir.chdir("../powerline")
-    `sudo python setup.py install`
   end
 end
