@@ -140,6 +140,8 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\v\.(pyc)$',
     \ }
 map <leader>b :CtrlPBuffer<CR>
+map <leader>n :bn<CR>
+map <leader>p :bp<CR>
 
 " Python-Mode
 let g:pymode_lint = 0 " let syntastic do linting
