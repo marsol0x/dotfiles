@@ -93,7 +93,7 @@ highlight clear SignColumn
 let g:gitgutter_sign_column_always = 1
 
 " Multi-line cursor
-let g:multi_cursor_start_key='<Leader>n'
+let g:multi_cursor_start_key='<leader>v'
 
 " Matchit, for % matching in Python conditionals
 runtime macros/matchit.vim
