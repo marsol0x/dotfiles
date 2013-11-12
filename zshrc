@@ -21,11 +21,11 @@ if [[ `uname` = "Darwin" ]]
 then
     alias sed="gsed"
     alias grep="ggrep --color=auto"
-    alias ls="gls"
+    alias ls="gls -F --group-directories-first --color=auto"
 else
     alias grep="grep --color=auto"
+    alias ls="ls -F --group-directories-first --color=auto"
 fi
-alias ls="ls -F --group-directories-first --color=auto"
 alias ll="ls -l"
 
 # Testing aliases
