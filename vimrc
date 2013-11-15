@@ -1,3 +1,4 @@
+set term=screen-256color
 set t_Co=256                  " Number of supported color
 set t_ut=                     " Clear using current bg color
 autocmd!
@@ -94,7 +95,7 @@ highlight clear SignColumn
 let g:gitgutter_sign_column_always = 1
 
 " Multi-line cursor
-let g:multi_cursor_start_key='<leader>v'
+let g:multi_cursor_start_key='<Leader>v'
 
 " Matchit, for % matching in Python conditionals
 runtime macros/matchit.vim
