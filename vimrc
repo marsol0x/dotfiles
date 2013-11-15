@@ -81,6 +81,7 @@ noremap <Right> <nop>
 let mapleader=","
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
+map <leader><leader> :b#<CR>
 map <F3> :TlistToggle<CR>:10wincmd h<CR>
 
 " Airline > powerline
