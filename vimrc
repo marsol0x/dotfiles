@@ -113,12 +113,17 @@ endfunction
 
 map <F4> :call UpdateProjectTags()<CR>
 
+" YCM
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'dir':  '\v[\/]\.(git|hg|svn|venv)$',
     \ 'file': '\v\.(pyc)$',
     \ }
 map <leader>b :CtrlPBuffer<CR>
@@ -134,8 +139,7 @@ let g:pymode_syntax_highlight_string_format = 1
 let g:pymode_syntax_highlight_builtin_objs = 1
 let g:pymode_indent = 1
 let g:pymode_run = 0
-let g:pymode_rope_vim_completion = 0 "use jedi
-let g:pymode_rope_autocomplete_map = '<C-Tab>' "just make this mostly useless
+let g:pymode_rope = 0
 let g:pymode_folding = 0
 
 " GUI stuff
@@ -156,3 +160,5 @@ else
         au InsertLeave * set timeoutlen=1000
     augroup END
 endif
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
