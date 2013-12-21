@@ -1,4 +1,3 @@
-set term=screen-256color
 set t_Co=256                  " Number of supported color
 set t_ut=                     " Clear using current bg color
 autocmd!
@@ -17,18 +16,15 @@ Bundle 'bling/vim-airline'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'kien/ctrlp.vim'
-Bundle 'godlygeek/tabular'
 Bundle 'rodjek/vim-puppet'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
 Bundle 'klen/python-mode'
-Bundle 'vim-scripts/taglist.vim'
 Bundle 'voithos/vim-python-matchit'
 Bundle 'xolox/vim-easytags'
 Bundle 'xolox/vim-misc'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'terryma/vim-multiple-cursors'
-Bundle 'derekwyatt/vim-scala'
 
 filetype plugin indent on
 
@@ -83,7 +79,6 @@ let mapleader=","
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
 map <leader><leader> :b#<CR>
-map <F3> :TlistToggle<CR>:10wincmd h<CR>
 
 " Airline > powerline
 set laststatus=2
@@ -146,7 +141,7 @@ let g:pymode_folding = 0
 if has('gui_running')
     set columns=180
     set lines=54
-    set guifont=Source\ Code\ Pro\ for\ Powerline\ h10
+    set guifont=Source\ Code\ Pro\ for\ Powerline:h10
     set guioptions-=T
     set guioptions-=m
     set guioptions+=LlRrb
@@ -159,6 +154,7 @@ else
         au InsertEnter * set timeoutlen=0
         au InsertLeave * set timeoutlen=1000
     augroup END
+    set term=screen-256color
 endif
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
