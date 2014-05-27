@@ -1,8 +1,7 @@
 autoload -U colors && colors
 
 # PATH
-PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:/usr/local/opt/ruby/bin:/usr/local/rvm/bin:$PATH
-export PATH
+export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 # Prompt
 setopt prompt_subst
@@ -28,12 +27,13 @@ else
 fi
 alias ll="ls -l"
 
-# Testing aliases
+# Aliases
 alias t="%"
 alias j="jobs"
 alias pd="pushd"
 alias p="popd"
 alias cls="clear; ls"
+alias proj="cd ~/Documents/Projects"
 
 
 # history
@@ -160,3 +160,13 @@ function zle-line-init zle-keymap-select {
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+# venv
+function venv {
+    source venv/bin/activate 2> /dev/null
+}
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# MySQL Cleartext Plugin
+export LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN=1
