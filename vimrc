@@ -9,22 +9,22 @@ call vundle#rc()              " Start vundle
 
 " Have Vundle manage Vundle
 " Required
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " My bundles go here
-Bundle 'bling/vim-airline'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'kien/ctrlp.vim'
-Bundle 'rodjek/vim-puppet'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-fugitive'
-Bundle 'klen/python-mode'
-Bundle 'voithos/vim-python-matchit'
-Bundle 'xolox/vim-easytags'
-Bundle 'xolox/vim-misc'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'terryma/vim-multiple-cursors'
+Plugin 'bling/vim-airline'
+Plugin 'airblade/vim-gitgutter'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'kien/ctrlp.vim'
+Plugin 'rodjek/vim-puppet'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-fugitive'
+Plugin 'klen/python-mode'
+Plugin 'voithos/vim-python-matchit'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'terryma/vim-multiple-cursors'
 
 filetype plugin indent on
 
@@ -37,6 +37,7 @@ set hlsearch                    " Highlight all search matches
 set incsearch                   " Highlight search matches as I type
 set ignorecase                  " Ignore case in pattern matching
 set showcmd                     " Show commands as I type them
+set showmode
 set history=1000                " History size for commands, search, etc
 set wildmode=list:longest       " List all possible matches when I auto-complete
 set visualbell                  " Beeping is annoying
@@ -109,19 +110,22 @@ endfunction
 map <F4> :call UpdateProjectTags()<CR>
 
 " YCM
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_autoclose_preview_window_after_insertion = 1
+"let g:ycm_collect_identifiers_from_tags_files = 1
 
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|venv)$',
-    \ 'file': '\v\.(pyc)$',
+    \ 'dir':  '\v[\/](\.git|\.hg|\.svn|venv)$',
+    \ 'file': '\v\.(pyc|class)$',
     \ }
 map <leader>b :CtrlPBuffer<CR>
+
+" Syntastic
+let g:syntastic_java_javac_config_file_enabled = 1
 
 " Python-Mode
 let g:pymode_lint = 0 " let syntastic do linting
@@ -156,5 +160,5 @@ else
     augroup END
     set term=screen-256color
 endif
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"

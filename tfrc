@@ -3,10 +3,8 @@
 /xtitle tinyfugue
 /set isize=5
 /set wrap=on
-/set wrapsize=80
 /set wrapspace=2
 /set tabsize=2
 /clock off
 /test addworld("SWU", "", "swuprising.net", "1138")
-/test addworld("WC", "", "wcmush.com", "2199")
 /test addworld("MUSH", "", "mush.pennmush.org", "4201")
