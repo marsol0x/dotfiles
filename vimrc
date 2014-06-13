@@ -25,6 +25,7 @@ Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'jdonaldson/vaxe'
 
 filetype plugin indent on
 
@@ -86,6 +87,9 @@ set laststatus=2
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
+" Syntastic
+let g:syntastic_java_javac_config_file_enabled = 1
+
 " Git gutter
 highlight clear SignColumn
 let g:gitgutter_sign_column_always = 1
@@ -119,8 +123,8 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](\.git|\.hg|\.svn|venv)$',
-    \ 'file': '\v\.(pyc|class)$',
+    \ 'dir':  '\v[\/]\.(git|hg|svn|venv)$',
+    \ 'file': '\v\.(pyc|class|jar)$',
     \ }
 map <leader>b :CtrlPBuffer<CR>
 

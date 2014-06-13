@@ -5,7 +5,7 @@ export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 # Prompt
 setopt prompt_subst
-export PROMPT='[%F{green}%T%f] %(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
+export PROMPT='[%F{green}%T%f] %F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Dircolors
 if [[ `uname` = "Darwin" ]]
@@ -75,6 +75,14 @@ function precmd () {
 # Search history
 function hs () {
     history | grep -i $1
+}
+
+# Display hostname if I'm ssh'd in
+function _ssh_prompt() {
+    if [ -n "${SSH_TTY+x}" ]
+    then
+        echo "`hostname -s` "
+    fi
 }
 
 # Fishy collapse of pwd
@@ -161,7 +169,7 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-# venv
+# Source a python virtualenv if one exists in the current directory
 function venv {
     source venv/bin/activate 2> /dev/null
 }
@@ -170,3 +178,6 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # MySQL Cleartext Plugin
 export LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN=1
+
+# Haxe
+export HAXE_STD_PATH="/usr/local/lib/haxe/std"
