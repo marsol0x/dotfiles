@@ -102,8 +102,9 @@ runtime macros/matchit.vim
 
 " Easy Tags
 let g:easytags_updatetime_warn = 0
+let g:easytags_file = './.tags'
 set tags=./.tags;
-let g:easytags_dynamic_files = 2
+let g:easytags_dynamic_files = 1
 
 function! UpdateProjectTags()
     let g:easytags_autorecurse = 1
@@ -123,7 +124,7 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|venv)$',
+    \ 'dir':  '\v[\/](|\.)(git|hg|svn|venv|pkg|bin)$',
     \ 'file': '\v\.(pyc|class|jar)$',
     \ }
 map <leader>b :CtrlPBuffer<CR>
