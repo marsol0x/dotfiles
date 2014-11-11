@@ -26,6 +26,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'jdonaldson/vaxe'
+Plugin 'godlygeek/tabular'
 
 filetype plugin indent on
 
@@ -53,6 +54,7 @@ set sw=4 st=4 ts=4 expandtab
 set listchars=tab:▸\ ,eol:¬
 set cursorline
 set so=14                       " Minimum number of screenlines for scrolling
+set modeline                    " Respect modelines in files
 
 " Mouse Stuff
 set mouse=n " Enable the mouse in normal mode
@@ -101,7 +103,6 @@ let g:multi_cursor_start_key='<Leader>v'
 runtime macros/matchit.vim
 
 " Easy Tags
-let g:easytags_updatetime_warn = 0
 let g:easytags_file = './.tags'
 set tags=./.tags;
 let g:easytags_dynamic_files = 1
