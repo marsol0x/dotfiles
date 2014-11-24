@@ -24,7 +24,6 @@ Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'jdonaldson/vaxe'
 Plugin 'godlygeek/tabular'
 
 filetype plugin indent on
