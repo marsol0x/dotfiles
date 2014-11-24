@@ -14,7 +14,6 @@ Plugin 'gmarik/vundle'
 " My bundles go here
 Plugin 'bling/vim-airline'
 Plugin 'airblade/vim-gitgutter'
-"Plugin 'Valloric/YouCompleteMe'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rodjek/vim-puppet'
 Plugin 'scrooloose/syntastic'
@@ -115,11 +114,6 @@ endfunction
 
 map <F4> :call UpdateProjectTags()<CR>
 
-" YCM
-"let g:ycm_autoclose_preview_window_after_completion = 1
-"let g:ycm_autoclose_preview_window_after_insertion = 1
-"let g:ycm_collect_identifiers_from_tags_files = 1
-
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -166,5 +160,3 @@ else
     augroup END
     set term=screen-256color
 endif
-"let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
