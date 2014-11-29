@@ -12,20 +12,21 @@ call vundle#rc()              " Start vundle
 Plugin 'gmarik/vundle'
 
 " My bundles go here
-Plugin 'bling/vim-airline'
-Plugin 'airblade/vim-gitgutter'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'kien/ctrlp.vim'
-Plugin 'rodjek/vim-puppet'
-Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-fugitive'
-Plugin 'klen/python-mode'
-Plugin 'voithos/vim-python-matchit'
+"Plugin 'bling/vim-airline'
+"Plugin 'airblade/vim-gitgutter'
+"Plugin 'kien/ctrlp.vim'
+"Plugin 'rodjek/vim-puppet'
+"Plugin 'scrooloose/syntastic'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'klen/python-mode'
+"Plugin 'voithos/vim-python-matchit'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
-Plugin 'jnwhiteh/vim-golang'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'jdonaldson/vaxe'
+"Plugin 'jnwhiteh/vim-golang'
+"Plugin 'terryma/vim-multiple-cursors'
+"Plugin 'jdonaldson/vaxe'
+"Plugin 'embear/vim-localvimrc'
+"Plugin 'godlygeek/tabular'
 
 filetype plugin indent on
 
@@ -52,7 +53,7 @@ set ruler                       " Show line/col number, Airline does this regard
 set sw=4 st=4 ts=4 expandtab
 set listchars=tab:▸\ ,eol:¬
 set cursorline
-set so=14                       " Minimum number of screenlines for scrolling
+set so=2                        " Minimum number of screenlines for scrolling
 
 " Mouse Stuff
 set mouse=n " Enable the mouse in normal mode
@@ -67,6 +68,7 @@ autocmd WinLeave * :setlocal number
 
 " Filetype configurations
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+au BufRead,BufWrite pom.xml set sw=2 st=2 ts=2 expandtab
 au BufRead,BufWrite *.conf set ft=config
 
 " Mappings
@@ -80,7 +82,21 @@ noremap <Right> <nop>
 let mapleader=","
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
+map <leader>b :ls<CR>
 map <leader><leader> :b#<CR>
+
+" Easy Tags
+set tags=.tags;~
+let g:easytags_file = './.tags'
+let g:easytags_dynamic_files = 1
+
+function! UpdateProjectTags()
+    let g:easytags_autorecurse = 1
+    :UpdateTags
+    let g:easytags_autorecurse = 0
+endfunction
+
+map <F4> :call UpdateProjectTags()<CR>
 
 " Airline > powerline
 set laststatus=2
@@ -100,33 +116,15 @@ let g:multi_cursor_start_key='<Leader>v'
 " Matchit, for % matching in Python conditionals
 runtime macros/matchit.vim
 
-" Easy Tags
-let g:easytags_updatetime_warn = 0
-set tags=./.tags;
-let g:easytags_dynamic_files = 2
-
-function! UpdateProjectTags()
-    let g:easytags_autorecurse = 1
-    :UpdateTags
-    let g:easytags_autorecurse = 0
-endfunction
-
-map <F4> :call UpdateProjectTags()<CR>
-
-" YCM
-"let g:ycm_autoclose_preview_window_after_completion = 1
-"let g:ycm_autoclose_preview_window_after_insertion = 1
-"let g:ycm_collect_identifiers_from_tags_files = 1
-
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|venv)$',
+    \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target)$',
     \ 'file': '\v\.(pyc|class|jar)$',
     \ }
-map <leader>b :CtrlPBuffer<CR>
+"map <leader>b :CtrlPBuffer<CR>
 
 " Syntastic
 let g:syntastic_java_javac_config_file_enabled = 1
@@ -147,8 +145,8 @@ let g:pymode_folding = 0
 
 " GUI stuff
 if has('gui_running')
-    set columns=180
-    set lines=54
+    set columns=319
+    set lines=75
     set guifont=Source\ Code\ Pro\ for\ Powerline:h10
     set guioptions-=T
     set guioptions-=m
@@ -164,5 +162,6 @@ else
     augroup END
     set term=screen-256color
 endif
-"let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+
+" Local Vimrc
+let g:localvimrc_ask = 0
