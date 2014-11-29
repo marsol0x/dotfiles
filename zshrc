@@ -179,5 +179,8 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # MySQL Cleartext Plugin
 export LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN=1
 
-# Haxe
-export HAXE_STD_PATH="/usr/local/lib/haxe/std"
+# JAVA
+if [[ `uname` = "Darwin" ]]
+then
+    export JAVA_HOME=`/usr/libexec/java_home`
+fi
