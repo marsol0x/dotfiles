@@ -12,16 +12,16 @@ call vundle#rc()              " Start vundle
 Plugin 'gmarik/vundle'
 
 " My bundles go here
+Plugin 'kien/ctrlp.vim'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 "Plugin 'bling/vim-airline'
 "Plugin 'airblade/vim-gitgutter'
-"Plugin 'kien/ctrlp.vim'
 "Plugin 'rodjek/vim-puppet'
 "Plugin 'scrooloose/syntastic'
 "Plugin 'tpope/vim-fugitive'
 "Plugin 'klen/python-mode'
 "Plugin 'voithos/vim-python-matchit'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
 "Plugin 'jnwhiteh/vim-golang'
 "Plugin 'terryma/vim-multiple-cursors'
 "Plugin 'jdonaldson/vaxe'
@@ -39,7 +39,7 @@ set hlsearch                    " Highlight all search matches
 set incsearch                   " Highlight search matches as I type
 set ignorecase                  " Ignore case in pattern matching
 set showcmd                     " Show commands as I type them
-set showmode
+set showmode                    " Show what mode I'm in
 set history=1000                " History size for commands, search, etc
 set wildmode=list:longest       " List all possible matches when I auto-complete
 set visualbell                  " Beeping is annoying
@@ -50,11 +50,12 @@ set copyindent                  " Copy the indent when indenting
 set backspace=indent,eol,start  " Backspace autoindent and such
 set ttyfast                     " I have a fast terminal
 set ruler                       " Show line/col number, Airline does this regardless
-set sw=4 st=4 ts=4 expandtab
+set sw=4 st=4 ts=4 expandtab    " Shift width, soft tab, tab stop == 4, use spaces, not tabs
 set listchars=tab:▸\ ,eol:¬
-set cursorline
+set cursorline                  " Highlight the line I am on
 set so=2                        " Minimum number of screenlines for scrolling
 set modeline                    " Respect modelines in files
+set laststatus=2                " Always show the status line
 
 " Mouse Stuff
 set mouse=n " Enable the mouse in normal mode
@@ -84,42 +85,12 @@ let mapleader=","
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
 map <leader>b :ls<CR>
-map <leader><leader> :b#<CR>
+map <leader>b :CtrlPBuffer<CR>
+"map <leader><leader> :b#<CR>
 
 " Easy Tags
 set tags=.tags;~
 let g:easytags_file = './.tags'
-let g:easytags_dynamic_files = 1
-
-function! UpdateProjectTags()
-    let g:easytags_autorecurse = 1
-    :UpdateTags
-    let g:easytags_autorecurse = 0
-endfunction
-
-map <F4> :call UpdateProjectTags()<CR>
-
-" Airline > powerline
-set laststatus=2
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-
-" Syntastic
-let g:syntastic_java_javac_config_file_enabled = 1
-
-" Git gutter
-highlight clear SignColumn
-let g:gitgutter_sign_column_always = 1
-
-" Multi-line cursor
-let g:multi_cursor_start_key='<Leader>v'
-
-" Matchit, for % matching in Python conditionals
-runtime macros/matchit.vim
-
-" Easy Tags
-let g:easytags_file = './.tags'
-set tags=./.tags;
 let g:easytags_dynamic_files = 1
 
 function! UpdateProjectTags()
@@ -138,7 +109,23 @@ let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target)$',
     \ 'file': '\v\.(pyc|class|jar)$',
     \ }
-"map <leader>b :CtrlPBuffer<CR>
+
+" Airline > powerline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" Syntastic
+let g:syntastic_java_javac_config_file_enabled = 1
+
+" Git gutter
+highlight clear SignColumn
+let g:gitgutter_sign_column_always = 1
+
+" Multi-line cursor
+let g:multi_cursor_start_key='<Leader>v'
+
+" Matchit, for % matching in Python conditionals
+runtime macros/matchit.vim
 
 " Syntastic
 let g:syntastic_java_javac_config_file_enabled = 1
