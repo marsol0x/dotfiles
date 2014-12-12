@@ -84,6 +84,7 @@ noremap <Right> <nop>
 let mapleader=","
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
+map <leader><leader> :b#<CR>
 map <leader>b :ls<CR>
 map <leader>b :CtrlPBuffer<CR>
 "map <leader><leader> :b#<CR>
