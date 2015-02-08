@@ -15,18 +15,8 @@ Plugin 'gmarik/vundle'
 Plugin 'kien/ctrlp.vim'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
-"Plugin 'bling/vim-airline'
-"Plugin 'airblade/vim-gitgutter'
-"Plugin 'rodjek/vim-puppet'
-"Plugin 'scrooloose/syntastic'
-"Plugin 'tpope/vim-fugitive'
-"Plugin 'klen/python-mode'
-"Plugin 'voithos/vim-python-matchit'
-"Plugin 'jnwhiteh/vim-golang'
-"Plugin 'terryma/vim-multiple-cursors'
-"Plugin 'jdonaldson/vaxe'
-"Plugin 'embear/vim-localvimrc'
-"Plugin 'godlygeek/tabular'
+Plugin 'rodjek/vim-puppet'
+Plugin 'godlygeek/tabular'
 
 filetype plugin indent on
 
@@ -85,8 +75,8 @@ let mapleader=","
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
 map <leader>b :ls<CR>
+map <leader><leader> :b#<CR>
 map <leader>b :CtrlPBuffer<CR>
-"map <leader><leader> :b#<CR>
 
 " Easy Tags
 set tags=.tags;~
@@ -110,44 +100,8 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\v\.(pyc|class|jar)$',
     \ }
 
-" Airline > powerline
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-
-" Syntastic
-let g:syntastic_java_javac_config_file_enabled = 1
-
-" Git gutter
-highlight clear SignColumn
-let g:gitgutter_sign_column_always = 1
-
-" Multi-line cursor
-let g:multi_cursor_start_key='<Leader>v'
-
-" Matchit, for % matching in Python conditionals
-runtime macros/matchit.vim
-
-" Syntastic
-let g:syntastic_java_javac_config_file_enabled = 1
-
-" Python-Mode
-let g:pymode_lint = 0 " let syntastic do linting
-let g:pymode_virtualenv = 0
-let g:pymode_breakpoint = 0
-let g:pymode_syntax_print_as_function = 1
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_highlight_string_format = 1
-let g:pymode_syntax_highlight_builtin_objs = 1
-let g:pymode_indent = 1
-let g:pymode_run = 0
-let g:pymode_rope = 0
-let g:pymode_folding = 0
-
 " GUI stuff
 if has('gui_running')
-    set columns=319
-    set lines=75
     set guifont=Source\ Code\ Pro\ for\ Powerline:h10
     set guioptions-=T
     set guioptions-=m
@@ -163,6 +117,3 @@ else
     augroup END
     set term=screen-256color
 endif
-
-" Local Vimrc
-let g:localvimrc_ask = 0
