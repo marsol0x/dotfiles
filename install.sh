@@ -17,7 +17,7 @@ function set_symlinks {
 
 function install_vundle {
     # This is for vim
-    mkdir vim/bundle/vundle &> /dev/null
+    mkdir -p vim/bundle/vundle
     pushd vim/bundle/vundle
     if [ ! -d ".git" ]
     then
