@@ -34,6 +34,7 @@ alias pd="pushd"
 alias p="popd"
 alias cls="clear; ls"
 alias proj="cd ~/Documents/Projects"
+alias lab="cd ~/Documents/Lab"
 
 
 # history
