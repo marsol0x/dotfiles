@@ -24,7 +24,7 @@ function install_vundle {
         git init
         git remote add -t master origin git://github.com/gmarik/vundle.git
         git pull
-        vim +PluginInstall +q +q
+        vim +PluginInstall +qa
     fi
     popd
 }
