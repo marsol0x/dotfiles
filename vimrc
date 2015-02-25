@@ -95,6 +95,7 @@ map <leader><leader> :b#<CR>
 set tags=.tags;~
 let g:easytags_file = './.tags'
 let g:easytags_dynamic_files = 1
+let g:easytags_async = 1
 
 function! UpdateProjectTags()
     let g:easytags_autorecurse = 1
