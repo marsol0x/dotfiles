@@ -47,6 +47,20 @@ set so=2                        " Minimum number of screenlines for scrolling
 set modeline                    " Respect modelines in files
 set laststatus=2                " Always show the status line
 
+" Statusline
+set statusline=             " Reset
+set statusline+=[%n]        " Buffer number
+set statusline+=\ %f\       " File name
+set statusline+=%4m         " Modify flag
+set statusline+=%r          " Read-only flag
+set statusline+=%w          " Preview Flag
+set statusline+=%=          " Right align on status line
+set statusline+=[%{&ft},    " File type
+set statusline+=\ %{&ff},   " File format
+set statusline+=\ %{&enc}]  " Encoding
+set statusline+=%10l,%c     " Line number, column number
+set statusline+=\ %10P      " Percentage through file
+
 " Mouse Stuff
 set mouse=n " Enable the mouse in normal mode
 set ttymouse=xterm2
