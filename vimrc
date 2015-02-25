@@ -55,9 +55,9 @@ set statusline+=%4m         " Modify flag
 set statusline+=%r          " Read-only flag
 set statusline+=%w          " Preview Flag
 set statusline+=%=          " Right align on status line
-set statusline+=[%{&ft},    " File type
-set statusline+=\ %{&ff},   " File format
-set statusline+=\ %{&enc}]  " Encoding
+set statusline+=%y          " File type
+set statusline+=[%{&ff}]    " File format
+set statusline+=[%{&enc}]   " Encoding
 set statusline+=%10l,%c     " Line number, column number
 set statusline+=\ %10P      " Percentage through file
 
