@@ -58,7 +58,7 @@ set statusline+=%=          " Right align on status line
 set statusline+=%y          " File type
 set statusline+=[%{&ff}]    " File format
 set statusline+=[%{&enc}]   " Encoding
-set statusline+=%10l,%c     " Line number, column number
+set statusline+=%10l,%v     " Line number, column number
 set statusline+=\ %10P      " Percentage through file
 
 " Mouse Stuff
