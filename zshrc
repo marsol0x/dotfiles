@@ -5,7 +5,8 @@ export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 # Prompt
 setopt prompt_subst
-export PROMPT='[%F{green}%T%f] %F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
+#export PROMPT='[%F{green}%T%f] %F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
+export PROMPT='%F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Dircolors
 if [[ `uname` = "Darwin" ]]
