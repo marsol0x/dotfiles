@@ -5,8 +5,7 @@ export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 # Prompt
 setopt prompt_subst
-#export PROMPT='[%F{green}%T%f] %F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
-export PROMPT='%F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) {$(_vcs_status)} [$(_vcs_branch)$(_vcs_git_remote)]%(!.$F{red}#%f.%F{blue}\$%f) '
+export PROMPT='%F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd)$(_vcs_branch)$(_vcs_status) %(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Dircolors
 if [[ `uname` = "Darwin" ]]
@@ -102,18 +101,16 @@ function _vcs_branch() {
     BRANCH=`git branch --no-color 2> /dev/null`
     if [[ $? -eq 0 ]]
     then
-        echo "%F{green}`echo $BRANCH| grep -i \* | awk -F'*' '{print $2}' | tr -d ' '`%f"
+        echo " $(_vcs_git_remote)%F{green}`echo $BRANCH| grep -i \* | awk -F'*' '{print $2}' | tr -d ' '`%f"
         return
     fi
 
     BRANCH=`hg branch 2> /dev/null`
     if [[ $? -eq 0 ]]
     then
-        echo "%F{cyan}$BRANCH%f"
+        echo " [%F{cyan}$BRANCH%f]"
         return
     fi
-
-    echo '%F{magenta}-%f'
 }
 
 function _vcs_status() {
@@ -142,8 +139,6 @@ function _vcs_status() {
             return
         fi
     fi
-
-    echo '%F{magenta}-%f'
 }
 
 function _vcs_git_remote() {
