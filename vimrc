@@ -91,6 +91,9 @@ map <leader>p :bp<CR>
 map <leader>b :CtrlPBuffer<CR>
 map <leader><leader> :b#<CR>
 
+" Quickfix
+set makeef=/tmp/error.txt
+
 " Easy Tags
 set tags=.tags;~
 let g:easytags_file = './.tags'
