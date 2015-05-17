@@ -85,11 +85,14 @@ noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
 
+" Leader shortcuts
 let mapleader=","
+
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
 map <leader>b :CtrlPBuffer<CR>
 map <leader><leader> :b#<CR>
+nmap <leader>s :w<CR>
 
 " Quickfix
 set makeef=/tmp/error.txt
