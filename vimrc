@@ -99,7 +99,7 @@ nmap <leader>s :w<CR>
 set makeef=/tmp/error.txt
 
 " Easy Tags
-set tags=.tags;~
+set tags=TAGS;~
 let g:easytags_file = './TAGS'
 let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
