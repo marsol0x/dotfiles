@@ -73,9 +73,10 @@ autocmd WinEnter * :setlocal relativenumber
 autocmd WinLeave * :setlocal number
 
 " Filetype configurations
-autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+au FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 au BufRead,BufWrite pom.xml set sw=2 st=2 ts=2 expandtab
 au BufRead,BufWrite *.conf set ft=config
+au BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 
 " Mappings
 noremap j gj
