@@ -100,7 +100,7 @@ set makeef=/tmp/error.txt
 
 " Easy Tags
 set tags=.tags;~
-let g:easytags_file = './.tags'
+let g:easytags_file = './TAGS'
 let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
 
