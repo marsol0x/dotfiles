@@ -21,7 +21,7 @@ Plugin 'godlygeek/tabular'
 filetype plugin indent on
 
 syntax on
-set background=dark
+set background=light
 colors solarized
 set encoding=utf-8
 set title                       " Set window title to show filename and path
