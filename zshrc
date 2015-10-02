@@ -171,16 +171,6 @@ function venv {
     source venv/bin/activate 2> /dev/null
 }
 
-# My own todo command
-function todo {
-    todo_jar=~/Documents/Projects/todotxt/dist/TodoTxt.jar
-    if [[ -e "$todo_jar" ]]
-    then
-        java -jar $todo_jar $*
-    fi
-}
-
-
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # MySQL Cleartext Plugin
