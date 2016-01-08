@@ -15,13 +15,14 @@ Plugin 'gmarik/vundle'
 Plugin 'kien/ctrlp.vim'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
-Plugin 'rodjek/vim-puppet'
 Plugin 'godlygeek/tabular'
+"Plugin 'joonty/vdebug'
+Plugin 'fatih/vim-go'
 
 filetype plugin indent on
 
 syntax on
-set background=light
+set background=dark
 colors solarized
 set encoding=utf-8
 set title                       " Set window title to show filename and path
@@ -74,6 +75,8 @@ autocmd WinLeave * :setlocal number
 
 " Filetype configurations
 au FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+au FileType gitcommit setlocal spell
+au FileType go setlocal noexpandtab makeprg=go\ install 
 au BufRead,BufWrite pom.xml set sw=2 st=2 ts=2 expandtab
 au BufRead,BufWrite *.conf set ft=config
 au BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
@@ -95,14 +98,50 @@ map <leader>b :CtrlPBuffer<CR>
 map <leader><leader> :b#<CR>
 nmap <leader>s :w<CR>
 
+" Omnicomplete
+au CompleteDone * silent! pclose!
+
 " Quickfix
-set makeef=/tmp/error.txt
+function OpenPrefixWindow(path)
+    if filereadable(a:path)
+        for i in range(1, winnr('$'))
+            if getbufvar(winbufnr(i), '&buftype') == "quickfix"
+                return
+            endif
+        endfor
+
+        let currentWindow = winnr()
+        if (winnr('$') > 1)
+            wincmd w
+            close
+        endif
+
+        cwindow
+        if (currentWindow == 1)
+            wincmd L
+        else
+            wincmd H
+        endif
+    endif
+endfunction
+
+let s:mjh_error_temp_file=tempname()
+let &makeef=s:mjh_error_temp_file
+au QuickFixCmdPost * :call OpenPrefixWindow(s:mjh_error_temp_file)
+
+if filereadable("./build.sh")
+    set makeprg=./build.sh
+elseif filereadable("./build.xml")
+    set makeprg=ant
+endif
 
 " Easy Tags
 set tags=TAGS;~
 let g:easytags_file = './TAGS'
 let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
+let g:easytags_include_members = 1
+let g:easytags_auto_highlight = 0
 
 function! UpdateProjectTags()
     let g:easytags_autorecurse = 1
@@ -115,11 +154,15 @@ map <F4> :call UpdateProjectTags()<CR>
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_reuse_window = 'netrw\|quickfix'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target)$',
-    \ 'file': '\v\.(pyc|class|jar)$',
+    \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target|pkg)$',
+    \ 'file': '\v\.(pyc|class|jar|a|so)$',
     \ }
+
+" vim-go
+let g:go_fmt_autosave = 0
 
 " GUI stuff
 if has('gui_running')
