@@ -104,7 +104,7 @@ au CompleteDone * silent! pclose!
 
 " Quickfix
 function OpenPrefixWindow(path)
-    if filereadable(a:path)
+    if getfsize(a:path) > 0
         for i in range(1, winnr('$'))
             if getbufvar(winbufnr(i), '&buftype') == "quickfix"
                 return
@@ -126,9 +126,8 @@ function OpenPrefixWindow(path)
     endif
 endfunction
 
-let s:mjh_error_temp_file=tempname()
-let &makeef=s:mjh_error_temp_file
-au QuickFixCmdPost * :call OpenPrefixWindow(s:mjh_error_temp_file)
+let &makeef=tempname()
+au QuickFixCmdPost * :call OpenPrefixWindow(&makeef)
 
 if filereadable("./build.sh")
     set makeprg=./build.sh
