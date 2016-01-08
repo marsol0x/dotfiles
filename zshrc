@@ -1,7 +1,8 @@
 autoload -U colors && colors
 
-# PATH
+# PATHS
 export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
+#export GOPATH=$HOME/Documents/Projects/golang
 
 # Prompt
 setopt prompt_subst
@@ -35,6 +36,7 @@ alias p="popd"
 alias cls="clear; ls"
 alias proj="cd ~/Documents/Projects"
 alias lab="cd ~/Documents/Lab"
+alias tmux="tmux -S ~/.tmux"
 
 
 # history
@@ -172,13 +174,13 @@ function venv {
 }
 
 # My own todo command
-function todo {
-    todo_jar=~/Documents/Projects/todotxt/dist/TodoTxt.jar
-    if [[ -e "$todo_jar" ]]
-    then
-        java -jar $todo_jar $*
-    fi
-}
+#function todo {
+#    todo_jar=~/Documents/Projects/todotxt/dist/TodoTxt.jar
+#    if [[ -e "$todo_jar" ]]
+#    then
+#        java -jar $todo_jar $*
+#    fi
+#}
 
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
@@ -191,3 +193,9 @@ if [[ `uname` = "Darwin" ]]
 then
     export JAVA_HOME=`/usr/libexec/java_home`
 fi
+
+# GOLANG
+PATH=$PATH:$HOME/Documents/Apps/golang/bin
+export GOROOT=$HOME/Documents/Apps/golang
+export GOPATH=$HOME/Documents/Projects/golang
+alias gopath="cd $GOPATH"
