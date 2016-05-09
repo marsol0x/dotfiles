@@ -22,6 +22,7 @@ then
     alias sed="gsed"
     alias grep="ggrep --color=auto"
     alias ls="gls -F --group-directories-first --color=auto"
+    alias stat="gstat"
 else
     alias grep="grep --color=auto"
     alias ls="ls -F --group-directories-first --color=auto"

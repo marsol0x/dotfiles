@@ -26,7 +26,7 @@ set background=dark
 colors solarized
 set encoding=utf-8
 set title                       " Set window title to show filename and path
-set hlsearch                    " Highlight all search matches
+set nohlsearch                    " Highlight all search matches
 set incsearch                   " Highlight search matches as I type
 set ignorecase                  " Ignore case in pattern matching
 set showcmd                     " Show commands as I type them
@@ -82,6 +82,18 @@ au BufRead,BufWrite *.conf set ft=config
 au BufRead,BufWrite *.cs set ff=dos
 au BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 
+" Skeletons
+au BufNewFile *.c,*.cpp,*.java,*.go
+    \ 0r ~/.vim/skeletons/skel.c
+    \ | %s/YEAR/\=strftime("%Y")/g
+au BufNewFile *.h,*.hpp
+    \ 0r ~/.vim/skeletons/skel.h
+    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/FILENAME/\=toupper(expand("%:t:r"))."_".toupper(expand("%:t:e"))/g
+au BufNewFile *.sh,*.bash,*.py
+    \ 0r ~/.vim/skeletons/skel.sh
+    \ | %s/YEAR/\=strftime("%Y")/g
+
 " Mappings
 noremap j gj
 noremap k gk
@@ -92,15 +104,12 @@ noremap <Right> <nop>
 
 " Leader shortcuts
 let mapleader=","
-
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
-"map <leader>b :CtrlPBuffer<CR>
+map <leader>b :CtrlPBuffer<CR>
 map <leader><leader> :b#<CR>
 nmap <leader>s :w<CR>
-
-" Omnicomplete
-au CompleteDone * silent! pclose!
+map <F8> :wa\|make<CR><CR>
 
 " Quickfix
 function OpenPrefixWindow(path)
@@ -137,7 +146,7 @@ endif
 
 " Easy Tags
 set tags=./TAGS;TAGS
-"let g:easytags_file = './TAGS'
+let g:easytags_file = ""
 let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
 let g:easytags_include_members = 1
@@ -155,13 +164,14 @@ map <F4> :call UpdateProjectTags()<CR>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_reuse_window = 'netrw\|quickfix'
-let g:ctrlp_working_path_mode = 'ra'
+"let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_switch_buffer = 'Et'
 let g:ctrlp_reuse_window = 'quickfix\|help'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target|pkg)$',
-    \ 'file': '\v\.(pyc|class|jar|a|so)$',
+    \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target|pkg|.vagrant)$',
+    \ 'file': '\v\.(pyc|class|jar|a|so|project|pydevproject)$',
     \ }
 
 " vim-go
@@ -169,7 +179,7 @@ let g:go_fmt_autosave = 0
 
 " GUI stuff
 if has('gui_running')
-    set guifont=Source\ Code\ Pro\ for\ Powerline:h10
+    set guifont=Inconsolata\ for\ Powerline:h10
     set guioptions-=T
     set guioptions-=m
     set guioptions+=LlRrb
