@@ -29,6 +29,7 @@ set title                       " Set window title to show filename and path
 set nohlsearch                    " Highlight all search matches
 set incsearch                   " Highlight search matches as I type
 set ignorecase                  " Ignore case in pattern matching
+set smartcase                   " Override ignorecase if we include an uppercase character
 set showcmd                     " Show commands as I type them
 set showmode                    " Show what mode I'm in
 set history=1000                " History size for commands, search, etc
@@ -68,14 +69,14 @@ set ttymouse=xterm2
 
 " Relative Numbering
 set relativenumber
-autocmd InsertEnter * :set number
+autocmd InsertEnter * :set number nohlsearch
 autocmd InsertLeave * :set relativenumber
 autocmd WinEnter * :setlocal relativenumber
 autocmd WinLeave * :setlocal number
 
 " Filetype configurations
 au FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-au FileType gitcommit setlocal spell
+au FileType gitcommit setlocal spell sw=4 st=4 ts=4 expandtab
 au FileType go setlocal noexpandtab makeprg=go\ install 
 au BufRead,BufWrite pom.xml set sw=2 st=2 ts=2 expandtab
 au BufRead,BufWrite *.conf set ft=config
@@ -83,16 +84,19 @@ au BufRead,BufWrite *.cs set ff=dos
 au BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 
 " Skeletons
-au BufNewFile *.c,*.cpp,*.java,*.go
+au BufNewFile *.c,*.cpp,*.cc,*.java
     \ 0r ~/.vim/skeletons/skel.c
-    \ | %s/YEAR/\=strftime("%Y")/g
+"    \ | %s/YEAR/\=strftime("%Y")/g
+au BufNewFile *.go
+    \ 0r ~/.vim/skeletons/skel.go
+"    \ | %s/YEAR/\=strftime("%Y")/g
 au BufNewFile *.h,*.hpp
     \ 0r ~/.vim/skeletons/skel.h
-    \ | %s/YEAR/\=strftime("%Y")/g
     \ | %s/FILENAME/\=toupper(expand("%:t:r"))."_".toupper(expand("%:t:e"))/g
+"    \ | %s/YEAR/\=strftime("%Y")/g
 au BufNewFile *.sh,*.bash,*.py
     \ 0r ~/.vim/skeletons/skel.sh
-    \ | %s/YEAR/\=strftime("%Y")/g
+"    \ | %s/YEAR/\=strftime("%Y")/g
 
 " Mappings
 noremap j gj
@@ -110,6 +114,10 @@ map <leader>b :CtrlPBuffer<CR>
 map <leader><leader> :b#<CR>
 nmap <leader>s :w<CR>
 map <F8> :wa\|make<CR><CR>
+
+" Use Ag for searching
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
 
 " Quickfix
 function OpenPrefixWindow(path)
@@ -145,11 +153,11 @@ elseif filereadable("./build.xml")
 endif
 
 " Easy Tags
-set tags=./TAGS;TAGS
+set tags=./TAGS,TAGS
 let g:easytags_file = ""
 let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
-let g:easytags_include_members = 1
+let g:easytags_include_members = 2
 let g:easytags_auto_highlight = 0
 
 function! UpdateProjectTags()
@@ -171,14 +179,16 @@ let g:ctrlp_reuse_window = 'quickfix\|help'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target|pkg|.vagrant)$',
-    \ 'file': '\v\.(pyc|class|jar|a|so|project|pydevproject)$',
+    \ 'file': '\v\.(pyc|class|jar|a|so|project|pydevproject|o)$',
     \ }
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 " vim-go
 let g:go_fmt_autosave = 0
 
 " GUI stuff
 if has('gui_running')
+    colors mjh
     set guifont=Inconsolata\ for\ Powerline:h10
     set guioptions-=T
     set guioptions-=m

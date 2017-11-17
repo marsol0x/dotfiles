@@ -186,7 +186,7 @@ then
 fi
 
 # GOLANG
-PATH=$PATH:$HOME/Documents/Apps/golang/bin
-export GOROOT=$HOME/Documents/Apps/golang
+export GOROOT=$HOME/Documents/Apps/go
 export GOPATH=$HOME/Documents/Projects/golang
+PATH=$PATH:$GOROOT/bin
 alias gopath="cd $GOPATH"
