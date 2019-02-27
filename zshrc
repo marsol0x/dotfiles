@@ -2,11 +2,10 @@ autoload -U colors && colors
 
 # PATHS
 export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
-#export GOPATH=$HOME/Documents/Projects/golang
 
 # Prompt
 setopt prompt_subst
-export PROMPT='%F{red}$(_ssh_prompt)%F{reset}%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd)$(_vcs_branch)$(_vcs_status) %(!.$F{red}#%f.%F{blue}\$%f) '
+export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd)$(_vcs_branch)$(_vcs_status) %(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Dircolors
 if [[ `uname` = "Darwin" ]]
@@ -19,12 +18,9 @@ fi
 # Aliases
 if [[ `uname` = "Darwin" ]]
 then
-    alias sed="gsed"
-    alias grep="ggrep --color=auto"
     alias ls="gls -F --group-directories-first --color=auto"
     alias stat="gstat"
 else
-    alias grep="grep --color=auto"
     alias ls="ls -F --group-directories-first --color=auto"
 fi
 alias ll="ls -l"
@@ -38,6 +34,8 @@ alias cls="clear; ls"
 alias proj="cd ~/Documents/Projects"
 alias lab="cd ~/Documents/Lab"
 alias tmux="tmux -S ~/.tmux"
+alias grep="grep --color=auto"
+alias code="code -r"
 
 
 # history
@@ -78,15 +76,7 @@ function precmd () {
 
 # Search history
 function hs () {
-    history | grep -i $1
-}
-
-# Display hostname if I'm ssh'd in
-function _ssh_prompt() {
-    if [ -n "${SSH_TTY+x}" ]
-    then
-        echo "`hostname -s` "
-    fi
+    history | ag -i $1
 }
 
 # Fishy collapse of pwd
@@ -104,14 +94,7 @@ function _vcs_branch() {
     BRANCH=`git branch --no-color 2> /dev/null`
     if [[ $? -eq 0 ]]
     then
-        echo " $(_vcs_git_remote)%F{green}`echo $BRANCH| grep -i \* | awk -F'*' '{print $2}' | tr -d ' '`%f"
-        return
-    fi
-
-    BRANCH=`hg branch 2> /dev/null`
-    if [[ $? -eq 0 ]]
-    then
-        echo " [%F{cyan}$BRANCH%f]"
+        echo " $(_vcs_git_remote)%F{green}`echo $BRANCH| ag -Q \* | awk -F'*' '{print $2}' | tr -d ' '`%f"
         return
     fi
 }
@@ -129,26 +112,13 @@ function _vcs_status() {
             return
         fi
     fi
-
-    STAT=`hg status 2> /dev/null`
-    if [[ $? -eq 0 ]]
-    then
-        if [[ `echo $STAT | wc -w | tr -d ' '` -ne 0 ]]
-        then
-            echo "%F{red}•%f"
-            return
-        else
-            echo "%F{green}✓%f"
-            return
-        fi
-    fi
 }
 
 function _vcs_git_remote() {
     git rev-parse --git-dir &> /dev/null
     if [[ $? -eq 0 ]]
     then
-        BRANCH=`git branch --no-color | grep \* | awk '{print $2}'`
+        BRANCH=`git branch --no-color | ag -Q \* | awk '{print $2}'`
         RSTATUS=`git rev-list --left-right origin/$BRANCH...HEAD 2> /dev/null`
         if [[ $? -ne 0 ]]; then return; fi
 
@@ -174,8 +144,6 @@ function venv {
     source venv/bin/activate 2> /dev/null
 }
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 # MySQL Cleartext Plugin
 export LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN=1
 
@@ -186,7 +154,10 @@ then
 fi
 
 # GOLANG
-export GOROOT=$HOME/Documents/Apps/go
+export GOROOT=/usr/local/Cellar/go/1.11.5/libexec
 export GOPATH=$HOME/Documents/Projects/golang
 PATH=$PATH:$GOROOT/bin
 alias gopath="cd $GOPATH"
+
+# LLVM
+export PATH=/usr/local/opt/llvm/bin:$PATH

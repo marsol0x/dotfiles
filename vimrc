@@ -4,12 +4,12 @@ autocmd!
 set nocompatible              " This ain't your daddy's vi
 filetype off                  " Required for plugins
 
-set rtp+=~/.vim/bundle/vundle " Set vundle as our runtime path
+set rtp+=~/.vim/bundle/Vundle.vim " Set vundle as our runtime path
 call vundle#rc()              " Start vundle
 
 " Have Vundle manage Vundle
 " Required
-Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " My bundles go here
 Plugin 'kien/ctrlp.vim'
@@ -17,13 +17,13 @@ Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'godlygeek/tabular'
 "Plugin 'joonty/vdebug'
-Plugin 'fatih/vim-go'
+"Plugin 'fatih/vim-go'
 
 filetype plugin indent on
 
 syntax on
 set background=dark
-colors solarized
+colors wombat
 set encoding=utf-8
 set title                       " Set window title to show filename and path
 set nohlsearch                    " Highlight all search matches
@@ -35,6 +35,7 @@ set showmode                    " Show what mode I'm in
 set history=1000                " History size for commands, search, etc
 set wildmode=list:longest       " List all possible matches when I auto-complete
 set visualbell                  " Beeping is annoying
+set nowrap
 set linebreak                   " When wrapping, wrap on the word, rather than the character
 set noswapfile                  " Disable swapfiles
 set autoindent                  " Autoindent each newline to same indent of prev line
@@ -44,10 +45,10 @@ set ttyfast                     " I have a fast terminal
 set ruler                       " Show line/col number, Airline does this regardless
 set sw=4 st=4 ts=4 expandtab    " Shift width, soft tab, tab stop == 4, use spaces, not tabs
 set listchars=tab:▸\ ,eol:¬
-set cursorline                  " Highlight the line I am on
 set so=2                        " Minimum number of screenlines for scrolling
 set modeline                    " Respect modelines in files
 set laststatus=2                " Always show the status line
+set nofoldenable                " Disable folding
 
 " Statusline
 set statusline=             " Reset
@@ -68,11 +69,11 @@ set mouse=n " Enable the mouse in normal mode
 set ttymouse=xterm2
 
 " Relative Numbering
-set relativenumber
-autocmd InsertEnter * :set number nohlsearch
-autocmd InsertLeave * :set relativenumber
-autocmd WinEnter * :setlocal relativenumber
-autocmd WinLeave * :setlocal number
+"set relativenumber
+"autocmd InsertEnter * :set number nohlsearch
+"autocmd InsertLeave * :set relativenumber
+"autocmd WinEnter * :setlocal relativenumber
+"autocmd WinLeave * :setlocal number
 
 " Filetype configurations
 au FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
@@ -86,17 +87,40 @@ au BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 " Skeletons
 au BufNewFile *.c,*.cpp,*.cc,*.java
     \ 0r ~/.vim/skeletons/skel.c
-"    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | %s/FILENAME/\=expand("%:t")/g
+    \ | $
 au BufNewFile *.go
     \ 0r ~/.vim/skeletons/skel.go
-"    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | %s/FILENAME/\=expand("%:t")/g
+    \ | $
 au BufNewFile *.h,*.hpp
     \ 0r ~/.vim/skeletons/skel.h
-    \ | %s/FILENAME/\=toupper(expand("%:t:r"))."_".toupper(expand("%:t:e"))/g
-"    \ | %s/YEAR/\=strftime("%Y")/g
-au BufNewFile *.sh,*.bash,*.py
+    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | %s/FILENAME_H/\=toupper(expand("%:t:r"))."_".toupper(expand("%:t:e"))/g
+    \ | %s/FILENAME/\=expand("%:t")/g
+    \ | 10
+au BufNewFile *.sh,*.bash
     \ 0r ~/.vim/skeletons/skel.sh
-"    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | %s/FILENAME/\=expand("%:t")/g
+    \ | $
+au BufNewFile *.py
+    \ 0r ~/.vim/skeletons/skel.py
+    \ | %s/YEAR/\=strftime("%Y")/g
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | %s/FILENAME/\=expand("%:t")/g
+    \ | $
+au BufNewFile *.sql
+    \ 0r ~/.vim/skeletons/skel.py
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | %s/FILENAME/\=expand("%:t:r")/g
+    \ | $
 
 " Mappings
 noremap j gj
@@ -172,6 +196,7 @@ map <F4> :call UpdateProjectTags()<CR>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_reuse_window = 'netrw\|quickfix'
+let g:ctrlp_open_new_file = 'r'
 "let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_switch_buffer = 'Et'
@@ -189,7 +214,8 @@ let g:go_fmt_autosave = 0
 " GUI stuff
 if has('gui_running')
     colors mjh
-    set guifont=Inconsolata\ for\ Powerline:h10
+    set cursorline                  " Highlight the line I am on
+    set guifont=Liberation\ Mono:h12
     set guioptions-=T
     set guioptions-=m
     set guioptions+=LlRrb

@@ -1,13 +1,12 @@
-#ifndef FILENAME
+#ifndef FILENAME_H
 /* ==================================================================================
-   $File: $
-   $Date: $
+   $File: FILENAME $
+   $Date: TODAY $
    $Revision: $
    $Creator: Marshel Helsper $
    $Notice: $
    ================================================================================== */
 
 
-
-#define FILENAME
+#define FILENAME_H
 #endif
