@@ -13,10 +13,8 @@ Plugin 'VundleVim/Vundle.vim'
 
 " My bundles go here
 Plugin 'kien/ctrlp.vim'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
 Plugin 'godlygeek/tabular'
-"Plugin 'joonty/vdebug'
+Plugin 'mtth/scratch.vim'
 "Plugin 'fatih/vim-go'
 
 filetype plugin indent on
@@ -68,13 +66,6 @@ set statusline+=\ %10P      " Percentage through file
 set mouse=n " Enable the mouse in normal mode
 set ttymouse=xterm2
 
-" Relative Numbering
-"set relativenumber
-"autocmd InsertEnter * :set number nohlsearch
-"autocmd InsertLeave * :set relativenumber
-"autocmd WinEnter * :setlocal relativenumber
-"autocmd WinLeave * :setlocal number
-
 " Filetype configurations
 au FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 au FileType gitcommit setlocal spell sw=4 st=4 ts=4 expandtab
@@ -117,7 +108,7 @@ au BufNewFile *.py
     \ | %s/FILENAME/\=expand("%:t")/g
     \ | $
 au BufNewFile *.sql
-    \ 0r ~/.vim/skeletons/skel.py
+    \ 0r ~/.vim/skeletons/skel.sql
     \ | %s/TODAY/\=strftime("%d %B %Y")/g
     \ | %s/FILENAME/\=expand("%:t:r")/g
     \ | $
@@ -176,40 +167,65 @@ elseif filereadable("./build.xml")
     set makeprg=ant
 endif
 
-" Easy Tags
+" Tags
 set tags=./TAGS,TAGS
-let g:easytags_file = ""
-let g:easytags_dynamic_files = 1
-let g:easytags_async = 1
-let g:easytags_include_members = 2
-let g:easytags_auto_highlight = 0
 
-function! UpdateProjectTags()
-    let g:easytags_autorecurse = 1
-    :UpdateTags
-    let g:easytags_autorecurse = 0
+let g:project_root = ""
+function FindAndSetProjectFile()
+    let project_root = getcwd()
+    while glob("`realpath " . project_root . "`") != "/"
+        if glob(project_root . "/vim.prj") != "" || glob(project_root . "/.git") != ""
+            break
+        else
+            let project_root .= "/.."
+        endif
+    endwhile
+
+    if glob("`realpath " . project_root . "`") != "/"
+        let g:project_root = glob("`realpath " . project_root . "`")
+        cd `=g:project_root`
+    endif
 endfunction
 
-map <F4> :call UpdateProjectTags()<CR>
+let s:tag_update_job = 0
+function UpdateTags()
+    if g:project_root != ""
+        let tag_file = g:project_root . "/TAGS"
+        if s:tag_update_job == 0 || job_status(s:tag_update_job) != "run"
+            if s:tag_update_job != 0
+                job_stop(s:tag_update_job)
+            endif
+            let g:tag_file = s:tag_file
+            let s:tag_update_job = job_start(["ctags", "-f", tag_file, "."])
+        endif
+    endif
+endfunction
+
+set updatetime=1000
+au VimEnter * silent! :call FindAndSetProjectFile()<CR>
+au CursorHold,CursorHoldI * silent! :call UpdateTags()<CR>
 
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_reuse_window = 'netrw\|quickfix'
 let g:ctrlp_open_new_file = 'r'
-"let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_working_path_mode = 'a'
-let g:ctrlp_switch_buffer = 'Et'
+let g:ctrlp_switch_buffer = 0 "'Et'
 let g:ctrlp_reuse_window = 'quickfix\|help'
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_use_caching = 0 " Disable caching, `ag` should be fast enough on each run
+let g:ctrlp_mruf_max = 0 " Don't remember any recently open files
+let g:ctrlp_match_window = 'max:50'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target|pkg|.vagrant)$',
     \ 'file': '\v\.(pyc|class|jar|a|so|project|pydevproject|o)$',
     \ }
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_extensions = ['tag']
 
 " vim-go
-let g:go_fmt_autosave = 0
+"let g:go_fmt_autosave = 0
 
 " GUI stuff
 if has('gui_running')
