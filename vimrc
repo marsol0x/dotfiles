@@ -48,6 +48,12 @@ set modeline                    " Respect modelines in files
 set laststatus=2                " Always show the status line
 set nofoldenable                " Disable folding
 
+" Wildcard expantion ignore list
+set wildignore+=*.git*
+set wildignore+=*/venv/*
+set wildignore+=*.o
+set wildignore+=*.pyc
+
 " Statusline
 set statusline=             " Reset
 set statusline+=[%n]        " Buffer number
@@ -171,46 +177,42 @@ endif
 set tags=./TAGS,TAGS
 
 let g:project_root = ""
-function FindAndSetProjectFile()
-    let project_root = getcwd()
-    while glob("`realpath " . project_root . "`") != "/"
-        if glob(project_root . "/vim.prj") != "" || glob(project_root . "/.git") != ""
-            break
-        else
-            let project_root .= "/.."
+function OpenProject(project_file)
+    if getfsize(a:project_file) > 0
+        let file_content = readfile(a:project_file, "", 1)
+        let source_path = file_content[0]
+        if isdirectory(source_path)
+            let g:project_root = source_path
+            UpdateTags()
         endif
-    endwhile
-
-    if glob("`realpath " . project_root . "`") != "/"
-        let g:project_root = glob("`realpath " . project_root . "`")
-        cd `=g:project_root`
     endif
 endfunction
 
 let s:tag_update_job = 0
 function UpdateTags()
     if g:project_root != ""
-        let tag_file = g:project_root . "/TAGS"
+        let tag_file = "./TAGS"
         if s:tag_update_job == 0 || job_status(s:tag_update_job) != "run"
             if s:tag_update_job != 0
                 job_stop(s:tag_update_job)
             endif
             let g:tag_file = s:tag_file
-            let s:tag_update_job = job_start(["ctags", "-f", tag_file, "."])
+            let s:tag_update_job = job_start(["ctags", "-f", tag_file, g:project_root])
         endif
     endif
 endfunction
 
 set updatetime=1000
-au VimEnter * silent! :call FindAndSetProjectFile()<CR>
 au CursorHold,CursorHoldI * silent! :call UpdateTags()<CR>
+au BufRead *.prj silent! :call OpenProject(expand("%"))
 
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_reuse_window = 'netrw\|quickfix'
 let g:ctrlp_open_new_file = 'r'
-let g:ctrlp_working_path_mode = 'a'
+"let g:ctrlp_working_path_mode = 'a'
+let g:ctrlp_working_path_mode = 0
 let g:ctrlp_switch_buffer = 0 "'Et'
 let g:ctrlp_reuse_window = 'quickfix\|help'
 let g:ctrlp_show_hidden = 1
@@ -223,6 +225,7 @@ let g:ctrlp_custom_ignore = {
     \ }
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_extensions = ['tag']
+let g:ctrlp_root_markers = ['*.prj']
 
 " vim-go
 "let g:go_fmt_autosave = 0
