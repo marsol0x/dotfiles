@@ -1,0 +1,254 @@
+set t_Co=256                  " Number of supported color
+set t_ut=                     " Clear using current bg color
+autocmd!
+set nocompatible              " This ain't your daddy's vi
+filetype off                  " Required for plugins
+
+set rtp+=~/_vim/bundle/vundle " Set vundle as our runtime path
+call vundle#rc()              " Start vundle
+
+" Have Vundle manage Vundle
+" Required
+Plugin 'VundleVim/Vundle.vim'
+
+" My bundles go here
+Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'xolox/vim-easytags'
+"Plugin 'xolox/vim-misc'
+Plugin 'godlygeek/tabular'
+Plugin 'mtth/scratch.vim'
+
+filetype plugin indent on
+
+syntax on
+set background=dark
+colors default
+set encoding=utf-8
+set fileformat=unix
+set title                       " Set window title to show filename and path
+set nohlsearch                  " Highlight all search matches
+set incsearch                   " Highlight search matches as I type
+set ignorecase                  " Ignore case in pattern matching
+set smartcase                   " Override ignorecase if we include an uppercase character
+set showcmd                     " Show commands as I type them
+set showmode                    " Show what mode I'm in
+set history=1000                " History size for commands, search, etc
+set wildmode=list:longest       " List all possible matches when I auto-complete
+set visualbell                  " Beeping is annoying
+set linebreak                   " When wrapping, wrap on the word, rather than the character
+set noswapfile                  " Disable swapfiles
+set autoindent                  " Autoindent each newline to same indent of prev line
+set copyindent                  " Copy the indent when indenting
+set backspace=indent,eol,start  " Backspace autoindent and such
+set ttyfast                     " I have a fast terminal
+set ruler                       " Show line/col number
+set sw=4 st=4 ts=4 expandtab    " Shift width, soft tab, tab stop == 4, use spaces, not tabs
+set listchars=tab:▸\ ,eol:¬
+set so=2                        " Minimum number of screenlines for scrolling
+set modeline                    " Respect modelines in files
+set laststatus=2                " Always show the status line
+set autowrite
+set noesckeys
+set nofixendofline				" Do not add an EOL at the EOF when saving
+
+" Statusline
+set statusline=             " Reset
+set statusline+=[%n]        " Buffer number
+set statusline+=\ %f\       " File name
+set statusline+=%4m         " Modify flag
+set statusline+=%r          " Read-only flag
+set statusline+=%w          " Preview Flag
+set statusline+=%=          " Right align on status line
+set statusline+=%y          " File type
+set statusline+=[%{&ff}]    " File format
+set statusline+=[%{&enc}]   " Encoding
+set statusline+=%10l,%v     " Line number, column number
+set statusline+=\ %10P      " Percentage through file
+
+" Mouse Stuff
+set mouse=n " Enable the mouse in normal mode
+set ttymouse=xterm2
+
+" Filetype configurations
+au FileType ruby      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+au FileType gitcommit setlocal spell sw=4 st=4 ts=4 expandtab
+au FileType go        setlocal noexpandtab makeprg=go\ install 
+au BufRead pom.xml set sw=2 st=2 ts=2 expandtab
+au BufRead *.conf  set ft=config
+au BufRead *.cs    set ff=dos
+au BufRead *.java  set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+
+" Skeletons
+au BufNewFile *.c,*.cpp,*.cc,*.java
+    \ 0r ~/_vim/skeletons/skel.c
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | 8
+au BufNewFile *.go
+    \ 0r ~/_vim/skeletons/skel.go
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | 8
+au BufNewFile *.h,*.hpp
+    \ 0r ~/_vim/skeletons/skel.h
+    \ | %s/FILENAME/\=toupper(expand("%:t:r"))."_".toupper(expand("%:t:e"))/g
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | 10
+au BufNewFile *.sh,*.bash,*.py
+    \ 0r ~/_vim/skeletons/skel.sh
+    \ | %s/TODAY/\=strftime("%d %B %Y")/g
+    \ | 8
+
+au BufEnter * let g:comment_string = "#"
+au BufEnter *.c,*.cc,*.cpp,*.h,*.hpp,*.java,*.go let g:comment_string = "//"
+
+" Mappings
+noremap j gj
+noremap k gk
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+inoremap <C-v> <C-r>*
+vnoremap <C-c> "*y
+vnoremap <C-x> "*d
+inoremap <M-t> <C-r>=g:comment_string<CR> TODO(marshel): 
+inoremap <M-y> <C-r>=g:comment_string<CR> NOTE(marshel): 
+
+" Leader shortcuts
+let mapleader=","
+map <leader>n :bn<CR>
+map <leader>p :bp<CR>
+map <leader>b :CtrlPBuffer<CR>
+map <leader><leader> :b#<CR>
+nmap <leader>s :w<CR>
+map <F8> :make<CR><CR>
+
+" Use Ag for searching
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
+
+" Quickfix
+function OpenPrefixWindow(path)
+    if getfsize(a:path) > 0
+        for i in range(1, winnr('$'))
+            if getbufvar(winbufnr(i), '&buftype') == "quickfix"
+                return
+            endif
+        endfor
+
+        let currentWindow = winnr()
+        if (winnr('$') > 1)
+            wincmd w
+            close
+        endif
+
+        cwindow
+        if (currentWindow == 1)
+            wincmd L
+        else
+            wincmd H
+        endif
+    endif
+endfunction
+
+let &makeef=tempname()
+au QuickFixCmdPost * :call OpenPrefixWindow(&makeef)
+
+if filereadable("build.bat")
+    set makeprg=build.bat
+elseif filereadable("build.xml")
+    set makeprg=ant
+endif
+
+" Tags
+set tags+=./TAGS,TAGS
+
+let g:project_root = ""
+function FindAndSetProjectFile()
+    let start_path = getcwd()
+    while getcwd() != "C:\\"
+        if glob("vim.prj") != "" || glob(".git") != ""
+            break
+        else
+            cd ..
+        endif
+    endwhile
+
+    if getcwd() == "C:\\"
+        cd `=start_path`
+    else
+        let g:project_root = getcwd()
+    endif
+endfunction
+
+let s:tag_update_job = 0
+function UpdateTags()
+    if g:project_root != ""
+        let tag_file = g:project_root . "/TAGS"
+        if s:tag_update_job == 0 || job_status(s:tag_update_job) != "run"
+            if s:tag_update_job != 0
+                job_stop(s:tag_update_job)
+                let s:tag_update_job = 0
+            endif
+            let s:tag_update_job = job_start(["ctags", "-f", tag_file, "."])
+        endif
+    endif
+endfunction
+
+set updatetime=1000
+au VimEnter * silent! :call FindAndSetProjectFile()<CR>
+au CursorHold,CursorHoldI * silent! :call UpdateTags()<CR>
+
+"let g:easytags_file = ""
+"let g:easytags_dynamic_files = 1
+"let g:easytags_async = 1
+"let g:easytags_include_members = 2
+"let g:easytags_auto_highlight = 0
+"
+"function! UpdateProjectTags()
+"    let g:easytags_autorecurse = 1
+"    :UpdateTags
+"    let g:easytags_autorecurse = 0
+"endfunction
+"
+"map <F4> :call UpdateProjectTags()<CR>
+
+" ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_reuse_window = 'netrw\|quickfix'
+let g:ctrlp_working_path_mode = 0 "'a'
+let g:ctrlp_open_new_file = 'r'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_reuse_window = 'quickfix\|help'
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_use_caching = 0
+let g:ctrlp_mruf_max = 0
+let g:ctrlp_match_window = "max:50"
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target|pkg|.vagrant)$',
+    \ 'file': '\v\.(pyc|class|jar|a|so|project|pydevproject|o|obj)$',
+    \ }
+let g:ctrlp_extensions = ['tag']
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+" GUI stuff
+if has('gui_running')
+    set rop=type:directx,geom:1,level:1,renmode:5,taamode:1
+    au GUIEnter * simalt ~x
+    colors mjh
+    set cursorline                  " Highlight the line I am on
+    "set guifont=Consolas:h8
+    set guifont=Liberation\ Mono:h8
+    set guioptions-=T
+    set guioptions-=m
+    set guioptions+=LlRrb
+    set guioptions-=LlRrb
+else
+    " Exit modes immediately
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif
