@@ -183,6 +183,7 @@ function OpenProject(project_file)
         let source_path = file_content[0]
         if isdirectory(source_path)
             let g:project_root = source_path
+            cd `=source_path`
             UpdateTags()
         endif
     endif
@@ -190,14 +191,17 @@ endfunction
 
 let s:tag_update_job = 0
 function UpdateTags()
-    if g:project_root != ""
+    if g:project_root != "" || tagfiles() != []
         let tag_file = "./TAGS"
         if s:tag_update_job == 0 || job_status(s:tag_update_job) != "run"
             if s:tag_update_job != 0
                 job_stop(s:tag_update_job)
             endif
-            let g:tag_file = s:tag_file
-            let s:tag_update_job = job_start(["ctags", "-f", tag_file, g:project_root])
+            let source_path = g:project_root
+            if source_path == ""
+                let source_path = "."
+            endif
+            let s:tag_update_job = job_start(["ctags", "-f", tag_file, "-R", source_path])
         endif
     endif
 endfunction
