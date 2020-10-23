@@ -1,5 +1,4 @@
 --recurse=yes
---sort=yes
 --exclude=.git
 --exclude=venv
 --python-kinds=-mvi

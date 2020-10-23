@@ -1,3 +1,15 @@
+" TODO(marshel):
+"   - Projects Files
+"       - Determine build command
+"       - Always override TAG files and keep them up-to-date
+"   - Quickfix
+"       - Only open if there are changes
+"       - Builds should mention that they succeeded or not
+"   - Replication 'other-window' behavior from emacs
+"   - Color TODO, NOTE, and IMPORTANT
+"   - Fix syntax highlighting?
+"       - Should keywords and strings be highlighted?
+
 set t_Co=256                  " Number of supported color
 set t_ut=                     " Clear using current bg color
 autocmd!
@@ -5,6 +17,7 @@ set nocompatible              " This ain't your daddy's vi
 filetype off                  " Required for plugins
 
 set rtp+=~/.vim/bundle/Vundle.vim " Set vundle as our runtime path
+"set rtp+=/usr/local/opt/fzf " FZF
 call vundle#rc()              " Start vundle
 
 " Have Vundle manage Vundle
@@ -12,10 +25,10 @@ call vundle#rc()              " Start vundle
 Plugin 'VundleVim/Vundle.vim'
 
 " My bundles go here
-Plugin 'kien/ctrlp.vim'
-Plugin 'godlygeek/tabular'
 Plugin 'mtth/scratch.vim'
-"Plugin 'fatih/vim-go'
+Plugin 'tommcdo/vim-lion.git'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 filetype plugin indent on
 
@@ -24,7 +37,7 @@ set background=dark
 colors wombat
 set encoding=utf-8
 set title                       " Set window title to show filename and path
-set nohlsearch                    " Highlight all search matches
+set nohlsearch                  " Highlight all search matches
 set incsearch                   " Highlight search matches as I type
 set ignorecase                  " Ignore case in pattern matching
 set smartcase                   " Override ignorecase if we include an uppercase character
@@ -40,13 +53,15 @@ set autoindent                  " Autoindent each newline to same indent of prev
 set copyindent                  " Copy the indent when indenting
 set backspace=indent,eol,start  " Backspace autoindent and such
 set ttyfast                     " I have a fast terminal
-set ruler                       " Show line/col number, Airline does this regardless
 set sw=4 st=4 ts=4 expandtab    " Shift width, soft tab, tab stop == 4, use spaces, not tabs
 set listchars=tab:▸\ ,eol:¬
 set so=2                        " Minimum number of screenlines for scrolling
 set modeline                    " Respect modelines in files
 set laststatus=2                " Always show the status line
 set nofoldenable                " Disable folding
+set hidden                      " Modified buffers can be hidden
+set bufhidden=hide              " Hide buffers, rather than unload them
+" set autowrite=on               " Auto-save buffer when it is hidden
 
 " Wildcard expantion ignore list
 set wildignore+=*.git*
@@ -56,8 +71,8 @@ set wildignore+=*.pyc
 
 " Statusline
 set statusline=             " Reset
-set statusline+=[%n]        " Buffer number
-set statusline+=\ %f\       " File name
+"set statusline+=[%n]\         " Buffer number
+set statusline+=%f\       " File name
 set statusline+=%4m         " Modify flag
 set statusline+=%r          " Read-only flag
 set statusline+=%w          " Preview Flag
@@ -131,32 +146,28 @@ noremap <Right> <nop>
 let mapleader=","
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
-map <leader>b :CtrlPBuffer<CR>
 map <leader><leader> :b#<CR>
 nmap <leader>s :w<CR>
 map <F8> :wa\|make<CR><CR>
+
+" FZF mappings
+map <c-p> :FZF<CR>
+map <leader>b :Buffers<CR>
+map <leader>t :Tags<CR>
+map <leader>g :Ag<CR>
+let g:fzf_preview_window = ''
 
 " Use Ag for searching
 set grepprg=ag\ --vimgrep\ $*
 set grepformat=%f:%l:%c:%m
 
 " Quickfix
-function OpenPrefixWindow(path)
-    if getfsize(a:path) > 0
-        for i in range(1, winnr('$'))
-            if getbufvar(winbufnr(i), '&buftype') == "quickfix"
-                return
-            endif
-        endfor
-
-        let currentWindow = winnr()
-        if (winnr('$') > 1)
-            wincmd w
-            close
-        endif
-
-        cwindow
-        if (currentWindow == 1)
+function OpenPrefixWindow()
+    if (filter(range(1, winnr("$")), 'getwinvar(v:val, "&ft") == "qf"') == [])
+        let current_window = winnr()
+        wincmd o
+        copen
+        if (current_window == 1)
             wincmd L
         else
             wincmd H
@@ -165,7 +176,7 @@ function OpenPrefixWindow(path)
 endfunction
 
 let &makeef=tempname()
-au QuickFixCmdPost * :call OpenPrefixWindow(&makeef)
+au QuickFixCmdPost * :call OpenPrefixWindow()
 
 if filereadable("./build.sh")
     set makeprg=./build.sh
@@ -173,10 +184,28 @@ elseif filereadable("./build.xml")
     set makeprg=ant
 endif
 
-" Tags
-set tags=./TAGS,TAGS
+" Projects
+set tags=./TAGS
 
 let g:project_root = ""
+let g:tag_update_job = 0
+function UpdateTags()
+    if g:project_root != ""
+        let tag_file = g:project_root . "/TAGS"
+        execute "set tags=" . tag_file
+        if g:tag_update_job == 0 || job_status(g:tag_update_job) != "run"
+            if g:tag_update_job != 0
+                job_stop(s:tag_update_job)
+            endif
+            let source_path = g:project_root
+            if source_path == ""
+                let source_path = "."
+            endif
+            let g:tag_update_job = job_start(["ctags", "-f", tag_file, "-R", source_path])
+        endif
+    endif
+endfunction
+
 function OpenProject(project_file)
     if getfsize(a:project_file) > 0
         let file_content = readfile(a:project_file, "", 1)
@@ -189,60 +218,27 @@ function OpenProject(project_file)
     endif
 endfunction
 
-let s:tag_update_job = 0
-function UpdateTags()
-    if g:project_root != "" || tagfiles() != []
-        let tag_file = "./TAGS"
-        if s:tag_update_job == 0 || job_status(s:tag_update_job) != "run"
-            if s:tag_update_job != 0
-                job_stop(s:tag_update_job)
-            endif
-            let source_path = g:project_root
-            if source_path == ""
-                let source_path = "."
-            endif
-            let s:tag_update_job = job_start(["ctags", "-f", tag_file, "-R", source_path])
-        endif
-    endif
-endfunction
-
 set updatetime=1000
 au CursorHold,CursorHoldI * silent! :call UpdateTags()<CR>
 au BufRead *.prj silent! :call OpenProject(expand("%"))
 
-" ctrlp
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_reuse_window = 'netrw\|quickfix'
-let g:ctrlp_open_new_file = 'r'
-"let g:ctrlp_working_path_mode = 'a'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_switch_buffer = 0 "'Et'
-let g:ctrlp_reuse_window = 'quickfix\|help'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_use_caching = 0 " Disable caching, `ag` should be fast enough on each run
-let g:ctrlp_mruf_max = 0 " Don't remember any recently open files
-let g:ctrlp_match_window = 'max:50'
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](.git|.hg|.svn|venv|bin|build|dist|target|pkg|.vagrant)$',
-    \ 'file': '\v\.(pyc|class|jar|a|so|project|pydevproject|o)$',
-    \ }
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_root_markers = ['*.prj']
-
-" vim-go
-"let g:go_fmt_autosave = 0
+function! MaximizeWindow()
+    set lines=999999
+    set columns=999999
+endfunction
 
 " GUI stuff
 if has('gui_running')
     colors mjh
+    highlight NonText guifg=bg
+
     set cursorline                  " Highlight the line I am on
     set guifont=Liberation\ Mono:h12
     set guioptions-=T
     set guioptions-=m
     set guioptions+=LlRrb
     set guioptions-=LlRrb
+    call MaximizeWindow()
 else
     " Exit modes immediately
     set ttimeoutlen=10

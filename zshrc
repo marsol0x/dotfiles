@@ -1,11 +1,11 @@
 autoload -U colors && colors
-
 # PATHS
 export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 # Prompt
 setopt prompt_subst
-export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd)$(_vcs_branch)$(_vcs_status) %(!.$F{red}#%f.%F{blue}\$%f) '
+#export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd)$(_vcs_branch)$(_vcs_status) %(!.$F{red}#%f.%F{blue}\$%f) '
+export PROMPT='%(1j.(%F{cyan}%j%F{reset}) .)$(_fishy_collapse_wd) %(!.$F{red}#%f.%F{blue}\$%f) '
 
 # Dircolors
 if [[ `uname` = "Darwin" ]]
@@ -14,6 +14,9 @@ then
 else
     eval `dircolors ~/.dircolors`
 fi
+
+export PROJECTS=~/Documents/Projects
+export LAB=~/Documents/Lab
 
 # Aliases
 if [[ `uname` = "Darwin" ]]
@@ -24,19 +27,18 @@ else
     alias ls="ls -F --group-directories-first --color=auto"
 fi
 alias ll="ls -l"
-
-# Aliases
+alias dir="ll"
 alias t="%"
-alias j="jobs"
+alias j="jobs -l"
 alias pd="pushd"
 alias p="popd"
 alias cls="clear; ls"
-alias proj="cd ~/Documents/Projects"
-alias lab="cd ~/Documents/Lab"
+alias proj="cd $PROJECTS"
+alias lab="cd $LAB"
 alias tmux="tmux -S ~/.tmux"
-alias grep="grep --color=auto"
-alias code="code -r"
 
+# Time
+export TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\nmem\t%M kb'
 
 # history
 HISTFILE=~/.histfile
@@ -62,10 +64,15 @@ else
 fi
 
 # keybindings
-bindkey -v
+bindkey -e
 bindkey "^P" history-search-backward
 bindkey "^N" history-search-forward
 bindkey "^R" history-incremental-search-backward
+bindkey "^[[3~" delete-char
+bindkey "^[[4~" end-of-line
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
 
 # set tab title to cwd
 function precmd () {
@@ -131,16 +138,16 @@ function _vcs_git_remote() {
 }
 
 # vi-mode stuff
-function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/[NORMAL]}/(main|viins)/[INSERT]}"
-    RPS2=$RPS1
-    zle reset-prompt
-}
-zle -N zle-line-init
-zle -N zle-keymap-select
+#function zle-line-init zle-keymap-select {
+#    RPS1="${${KEYMAP/vicmd/[NORMAL]}/(main|viins)/[INSERT]}"
+#    RPS2=$RPS1
+#    zle reset-prompt
+#}
+#zle -N zle-line-init
+#zle -N zle-keymap-select
 
 # Source a python virtualenv if one exists in the current directory
-function venv {
+function venv() {
     source venv/bin/activate 2> /dev/null
 }
 
@@ -154,10 +161,14 @@ then
 fi
 
 # GOLANG
-export GOROOT=/usr/local/Cellar/go/1.11.5/libexec
+export GOROOT=/usr/local/Cellar/go/1.14/libexec
 export GOPATH=$HOME/Documents/Projects/golang
 PATH=$PATH:$GOROOT/bin
 alias gopath="cd $GOPATH"
 
 # LLVM
 export PATH=/usr/local/opt/llvm/bin:$PATH
+
+# FZF
+export FZF_DEFAULT_COMMAND="ag -l --nocolor"
+export FZF_DEFAULT_OPTS="--cycle --info=hidden +m"
