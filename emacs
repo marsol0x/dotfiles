@@ -1,4 +1,6 @@
 ; Global settings
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -21,7 +23,7 @@
 (setq inhibit-startup-screen t)
 (setq vc-follow-symlinks t)
 
-(set-frame-font "-*-Liberation Mono-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
+(set-frame-font "-*-Liberation Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
 					; Emacs Window Things
 (menu-bar-mode -1)
@@ -64,6 +66,11 @@
   nil)
 (setq split-window-preferred-function 'mjh-never-split-a-window)
 
+; TAB completes, shift-TAB actually tabs
+(setq dabbrev-case-replace t)
+(setq dabbrev-case-fold-search t)
+(setq dabbrev-upcase-means-case-search t)
+
 ; Key mappings
 (global-set-key (kbd "<C-right>") 'forward-word)
 (global-set-key (kbd "<C-left>") 'backward-word)
@@ -75,7 +82,6 @@
 (global-set-key (kbd "<pgdown>") 'backward-page)
 (global-set-key (kbd "<C-next>") 'scroll-other-window)
 (global-set-key (kbd "<C-prior>") 'scroll-other-window-down)
-(global-set-key (kbd "<S-tab>") 'dabbrev-expand)
 
 ; 4coder-like bindings
 (global-set-key (kbd "C-o")   'ido-find-file)
@@ -103,11 +109,36 @@
   (define-key python-mode-map (kbd "M-'")  'python-nav-forward-block)
   (define-key python-mode-map (kbd "M-}")  'python-nav-backward-defun)
   (define-key python-mode-map (kbd "M-\"") 'python-nav-forward-defun)
+
+  (define-key python-mode-map (kbd "<tab>") 'dabbrev-expand)
+  (define-key python-mode-map (kbd "<S-tab>") 'indent-for-tab-command)
+  (define-key python-mode-map (kbd "<C-tab>") 'indent-region)
+
   (setq tab-wdith 4)
+  (setq python-indent-guess-indent-offset nil)
+
+  (defun mjh-python-new-file ()
+	 "New Python file format"
+	 (interactive)
+	 (insert "# -*- coding: utf-8 -*-\n")
+	 (insert "\"\"\"\n")
+	 (insert (concat (file-name-nondirectory buffer-file-name) "\n\n"))
+	 (insert "    :author: Marshel Helsper <helsperm@dnb.com>\n")
+	 (insert (concat "    :created: " (format-time-string "%d %B %Y") "\n"))
+	 (insert (concat "    :copywrite: (c) " (format-time-string "%Y") " Dun & Bradstreet Inc.\n"))
+	 (insert "\"\"\"\n\n")
+	 (insert "from __future__ import print_function\n")
+	 (insert "\n\n")
+  )
+
+  (when (not (file-exists-p buffer-file-name)) (mjh-python-new-file))
   )
 
 (defun mjh-c-hook ()
-    (define-key c-mode-map (kbd "M-m") (lambda () (interactive) (compile "./build.sh")))
+  (setq tab-width 4 indent-tabs-mode nil)
+  (c-toggle-auto-hungry-state -1)
+
+  (define-key c-mode-map (kbd "M-m") (lambda () (interactive) (compile "./build.sh")))
   )
 
 (defun mjh-go-hook ()
