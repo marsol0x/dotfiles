@@ -1,6 +1,6 @@
 autoload -U colors && colors
 # PATHS
-export PATH=$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH
+export PATH="./venv/bin:$HOME/.bin:/usr/local/sbin:/usr/local/bin:$PATH"
 
 # Prompt
 setopt prompt_subst
@@ -54,7 +54,7 @@ compinit
 zstyle ':completion:*' menu select
 setopt completealiases
 
-export EDITOR='vim' # all vim all the time
+export EDITOR='nvim' # all vim all the time
 export CLICOLOR="YES" # all CLI colors on
 if [[ $TMUX == '' ]]
 then
@@ -161,7 +161,7 @@ then
 fi
 
 # GOLANG
-export GOROOT=/usr/local/Cellar/go/1.14/libexec
+export GOROOT=/usr/local/Cellar/go/1.16.1/libexec
 export GOPATH=$HOME/Documents/Projects/golang
 PATH=$PATH:$GOROOT/bin
 alias gopath="cd $GOPATH"
@@ -172,3 +172,6 @@ export PATH=/usr/local/opt/llvm/bin:$PATH
 # FZF
 export FZF_DEFAULT_COMMAND="ag -l --nocolor"
 export FZF_DEFAULT_OPTS="--cycle --info=hidden +m"
+
+# Sublime Text
+export PATH=$PATH:/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/

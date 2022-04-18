@@ -2,7 +2,8 @@
 
 function main {
     set_symlinks
-    install_vundle
+    # NOTE(marshel): No longer need to do this if we're using neovim now
+    #install_vundle
 }
 
 function set_symlinks {
